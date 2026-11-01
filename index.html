@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#171916">
+  <meta name="description" content="RITMO: seu companheiro pessoal de rotina.">
+  <title>RITMO | Sua rotina, no seu ritmo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="RITMO início"><span class="brand-mark">R</span><span>RITMO</span></a>
+      <div class="top-actions">
+        <span class="streak" title="Sequência atual">✦ <b id="streak-count">3</b></span>
+        <button class="avatar" data-page="profile" aria-label="Abrir perfil">AR</button>
+      </div>
+    </header>
+
+    <main id="app-main">
+      <section class="page active" id="page-today">
+        <div class="welcome-row">
+          <div><p class="eyebrow" id="today-date">SEU DIA</p><h1>Um passo de cada vez<span class="lime">.</span></h1><p class="muted">Consistência não exige perfeição.</p></div>
+          <div class="level-orb"><span>LVL</span><strong id="level-number">1</strong></div>
+        </div>
+        <section class="xp-card">
+          <div class="xp-top"><div><span class="muted small">SEU PROGRESSO</span><h2><span id="xp-total">0</span> <small>XP</small></h2></div><span class="level-label" id="level-label">Iniciante</span></div>
+          <div class="progress-track"><div class="progress-fill" id="xp-progress"></div></div>
+          <div class="xp-bottom"><span id="xp-current">0 XP</span><span id="xp-next">100 XP para o próximo nível</span></div>
+        </section>
+        <div class="section-heading"><div><p class="eyebrow">PAINEL DE CONTROLE</p><h2>Missões de hoje</h2></div><button class="text-button" data-page="missions">Ver todas ↗</button></div>
+        <div class="day-progress"><div class="day-progress-copy"><strong id="done-count">0 de 0</strong><span class="muted small">missões concluídas</span></div><div class="mini-track"><div id="day-progress-fill"></div></div><span id="day-percent" class="percent">0%</span></div>
+        <div id="today-missions" class="mission-list"></div>
+        <div class="section-heading schedule-heading"><div><p class="eyebrow">SEU TEMPO</p><h2>Próximos horários</h2></div><button class="icon-button" data-action="add" aria-label="Adicionar missão">＋</button></div>
+        <div id="schedule-list" class="schedule-list"></div>
+        <section class="review-banner"><div class="review-icon">◷</div><div><strong>Fechando o dia?</strong><p class="muted small">Faça uma revisão rápida e ajuste o plano de amanhã.</p></div><button class="button button-secondary" data-action="review">Revisar</button></section>
+      </section>
+
+      <section class="page" id="page-chat">
+        <div class="page-intro"><p class="eyebrow">SEU COMPANHEIRO</p><h1>Conversar<span class="lime">.</span></h1><p class="muted">Um espaço para organizar as ideias e voltar ao ritmo.</p></div>
+        <div class="chat-card">
+          <div class="chat-header"><div class="bot-avatar">R</div><div><strong>RITMO</strong><p class="online-label"><span></span> Modo demonstrativo</p></div><span class="demo-tag">DEMO</span></div>
+          <div class="chat-messages" id="chat-messages"><div class="message bot-message">Ei! Vamos construir um dia possível, não um dia perfeito. O que você gostaria de colocar em movimento hoje?</div></div>
+          <div class="quick-prompts"><button data-prompt="Quero organizar meu dia">Organizar meu dia</button><button data-prompt="Estou procrastinando">Estou procrastinando</button><button data-prompt="Hoje está difícil">Hoje está difícil</button></div>
+          <form id="chat-form" class="chat-input-row"><input id="chat-input" type="text" placeholder="Escreva uma mensagem..." autocomplete="off" aria-label="Mensagem"><button class="send-button" type="submit" aria-label="Enviar mensagem">↑</button></form>
+          <p class="demo-note">Resposta local demonstrativa. Nenhuma IA externa está conectada.</p>
+        </div>
+      </section>
+
+      <section class="page" id="page-missions">
+        <div class="page-intro page-title-row"><div><p class="eyebrow">CENTRAL DE AÇÃO</p><h1>Missões<span class="lime">.</span></h1><p class="muted">Pequenas ações, progresso real.</p></div><button class="button button-primary" data-action="add">＋ Nova</button></div>
+        <div class="filter-row"><button class="filter active" data-filter="all">Todas</button><button class="filter" data-filter="pending">Pendentes</button><button class="filter" data-filter="done">Concluídas</button></div>
+        <div id="all-missions" class="mission-list"></div>
+      </section>
+
+      <section class="page" id="page-achievements">
+        <div class="page-intro"><p class="eyebrow">SEU CAMINHO</p><h1>Conquistas<span class="lime">.</span></h1><p class="muted">Cada vitória conta. Inclusive as pequenas.</p></div>
+        <div class="achievement-summary"><span class="trophy">✦</span><div><strong id="achievement-count">0 conquistas</strong><p class="muted small">Continue avançando no seu ritmo.</p></div></div>
+        <div id="achievement-list" class="achievement-list"></div>
+        <div class="section-heading"><div><p class="eyebrow">REGISTRO PESSOAL</p><h2>Vitórias do caminho</h2></div><button class="text-button" data-action="victory">＋ Registrar</button></div>
+        <div id="victory-list" class="victory-list"></div>
+      </section>
+
+      <section class="page" id="page-profile">
+        <div class="page-intro"><p class="eyebrow">CONFIGURAÇÕES PESSOAIS</p><h1>Seu perfil<span class="lime">.</span></h1><p class="muted">Uma rotina que respeita a sua realidade.</p></div>
+        <div class="profile-card"><div class="profile-avatar">AR</div><div><strong id="profile-name-display">Aventureiro</strong><p class="muted small">Nível <span id="profile-level">1</span> · <span id="profile-xp">0 XP</span></p></div><button class="text-button" data-action="edit-name">Editar</button></div>
+        <form id="profile-form" class="settings-card">
+          <label>Objetivo principal<input id="goal-input" type="text" placeholder="Ex.: estudar programação"></label>
+          <label>Tempo disponível por dia<select id="availability-input"><option value="30">30 minutos</option><option value="60">1 hora</option><option value="90">1h30</option><option value="120">2 horas</option><option value="180">3 horas ou mais</option></select></label>
+          <label>Seu estilo de acompanhamento<select id="tone-input"><option value="balanced">Equilibrado</option><option value="gentle">Acolhedor</option><option value="direct">Direto</option></select></label>
+          <label>Regra pessoal<textarea id="rule-input" rows="3" placeholder="Ex.: não marcar tarefas depois das 21h."></textarea></label>
+          <button class="button button-primary full-button" type="submit">Salvar preferências</button>
+        </form>
+        <div class="settings-card consequence-card"><div><strong>Consequência combinada</strong><p class="muted small">Defina um ajuste leve para quando uma missão não acontecer. Nunca há punições automáticas.</p></div><label>Minha consequência<input id="consequence-input" type="text" placeholder="Ex.: revisar o planejamento"></label><button class="button button-secondary full-button" data-action="save-consequence">Salvar regra</button></div>
+        <button class="reset-button" data-action="reset">Restaurar demonstração</button>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Navegação principal">
+      <button class="nav-item active" data-page="today"><span>⌂</span><small>Hoje</small></button>
+      <button class="nav-item" data-page="chat"><span>◌</span><small>Conversar</small></button>
+      <button class="nav-item" data-page="missions"><span>▤</span><small>Missões</small></button>
+      <button class="nav-item" data-page="achievements"><span>✧</span><small>Conquistas</small></button>
+      <button class="nav-item" data-page="profile"><span>◎</span><small>Perfil</small></button>
+    </nav>
+  </div>
+
+  <dialog id="mission-dialog" class="modal">
+    <form id="mission-form" method="dialog">
+      <div class="modal-heading"><div><p class="eyebrow">NOVA AÇÃO</p><h2 id="mission-modal-title">Criar missão</h2></div><button type="button" class="close-button" data-close="mission-dialog">×</button></div>
+      <input type="hidden" id="mission-id">
+      <label>Título<input id="mission-title" required maxlength="70" placeholder="Ex.: estudar Python"></label>
+      <div class="form-grid"><label>Duração<select id="mission-duration"><option value="5">5 min</option><option value="15" selected>15 min</option><option value="30">30 min</option><option value="45">45 min</option><option value="60">1 hora</option><option value="90">1h30</option><option value="120">2 horas</option></select></label><label>Prioridade<select id="mission-priority"><option value="low">Baixa</option><option value="medium" selected>Média</option><option value="high">Alta</option></select></label></div>
+      <label>Horário opcional<input id="mission-time" type="time"></label>
+      <div class="modal-actions"><button type="button" class="button button-secondary" data-close="mission-dialog">Cancelar</button><button type="submit" class="button button-primary">Salvar missão</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="review-dialog" class="modal">
+    <form id="review-form" method="dialog">
+      <div class="modal-heading"><div><p class="eyebrow">CHECK-OUT</p><h2>Revisão do dia</h2></div><button type="button" class="close-button" data-close="review-dialog">×</button></div>
+      <p class="muted">O que funcionou hoje? O que precisa mudar amanhã?</p>
+      <label>Como foi seu dia?<select id="review-mood"><option>Foi bem</option><option>Foi razoável</option><option>Foi difícil</option></select></label>
+      <label>O que você quer ajustar?<textarea id="review-note" rows="3" placeholder="Ex.: reduzir tarefas e começar mais cedo..."></textarea></label>
+      <div class="modal-actions"><button type="button" class="button button-secondary" data-close="review-dialog">Cancelar</button><button type="submit" class="button button-primary">Salvar revisão</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="victory-dialog" class="modal">
+    <form id="victory-form" method="dialog">
+      <div class="modal-heading"><div><p class="eyebrow">MARCO PESSOAL</p><h2>Registrar vitória</h2></div><button type="button" class="close-button" data-close="victory-dialog">×</button></div>
+      <label>Qual foi sua vitória?<input id="victory-title" required maxlength="90" placeholder="Ex.: consegui estudar mesmo cansado"></label>
+      <label>Recompensa escolhida (opcional)<input id="victory-reward" maxlength="90" placeholder="Ex.: assistir a um episódio"></label>
+      <div class="modal-actions"><button type="button" class="button button-secondary" data-close="victory-dialog">Cancelar</button><button type="submit" class="button button-primary">Registrar</button></div>
+    </form>
+  </dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
