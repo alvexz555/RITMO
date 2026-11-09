@@ -1,512 +1,1716 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#07080c">
-  <meta name="color-scheme" content="dark">
-  <meta name="description" content="RITMO: transforme sua rotina em uma jornada. Organize missões, acompanhe sua evolução e construa consistência.">
-  <meta name="application-name" content="RITMO">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="mobile-web-app-capable" content="yes">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d1017">
+<title>RITMO × GG FIT</title>
 
-  <title>RITMO | Sua vida é o jogo</title>
-
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="icon.svg">
-  <link rel="stylesheet" href="ritmo-fusion.css">
-
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="RITMO | Sua vida é o jogo">
-  <meta property="og:description" content="Uma missão de cada vez. Transforme intenção em ação.">
+<style>
+:root{
+  --bg:#0d1017;
+  --panel:#151b26;
+  --panel2:#1c2431;
+  --line:rgba(255,255,255,.085);
+  --text:#f1f2ed;
+  --muted:#929baa;
+  --lime:#b8f36b;
+  --cyan:#63d8e6;
+  --purple:#a98bff;
+  --red:#ff6b78;
+  --gold:#f5c86a;
+  --radius:18px;
+  --shadow:0 12px 40px rgba(0,0,0,.22);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  min-height:100vh;
+}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible{
+  outline:2px solid var(--lime);outline-offset:2px
+}
+.app{min-height:100vh}
+.sidebar{
+  position:fixed;inset:0 auto 0 0;width:238px;
+  background:#10151e;border-right:1px solid var(--line);
+  padding:25px 15px;display:flex;flex-direction:column;z-index:10
+}
+.brand{padding:4px 12px 28px}
+.brand-mark{font-size:1.35rem;font-weight:950;letter-spacing:-1px}
+.brand-mark span{color:var(--lime)}
+.brand small{display:block;color:var(--muted);font-size:.68rem;letter-spacing:2px;margin-top:5px}
+.nav-label{font-size:.65rem;color:#697386;letter-spacing:1.8px;padding:12px}
+.nav{display:grid;gap:5px}
+.nav button{
+  border:0;background:transparent;color:#aab2c0;
+  padding:12px;border-radius:12px;text-align:left;
+  display:flex;align-items:center;gap:12px;font-size:.88rem
+}
+.nav button:hover,.nav button.active{background:rgba(184,243,107,.1);color:var(--lime)}
+.nav button .ico{width:22px;text-align:center;font-size:1.05rem}
+.sidebar-bottom{margin-top:auto;padding:12px;color:var(--muted);font-size:.75rem}
+.main{margin-left:238px;padding:28px clamp(18px,4vw,52px) 60px;max-width:1600px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:30px}
+.topbar-left{display:flex;align-items:center;gap:12px}
+.topbar h1{font-size:1.1rem;margin:0}
+.topbar p{font-size:.75rem;color:var(--muted);margin:4px 0 0}
+.top-stats{display:flex;gap:8px;flex-wrap:wrap}
+.stat-pill,.pill{
+  border:1px solid var(--line);border-radius:999px;
+  padding:8px 12px;background:var(--panel);font-size:.78rem
+}
+.stat-pill b{color:var(--lime)}
+.mobile-menu{display:none}
+.view{display:none;animation:appear .2s ease}
+.view.active{display:block}
+@keyframes appear{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.page-heading{margin:0 0 22px}
+.page-heading .eyebrow{color:var(--lime);font-size:.68rem;letter-spacing:2px;font-weight:800}
+.page-heading h2{font-size:clamp(1.8rem,4vw,2.5rem);letter-spacing:-1.5px;margin:7px 0}
+.page-heading p{color:var(--muted);margin:0;font-size:.9rem}
+.grid{display:grid;gap:15px}
+.grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.card{
+  background:var(--panel);border:1px solid var(--line);
+  border-radius:var(--radius);padding:19px;box-shadow:var(--shadow);
+  min-width:0
+}
+.card h3{font-size:1rem;margin:0 0 13px}
+.card-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+.card-head h3{margin:0}
+.muted{color:var(--muted)}
+.small{font-size:.78rem}
+.eyebrow{font-size:.66rem;letter-spacing:1.6px;color:var(--muted);font-weight:800}
+.big{font-size:2rem;font-weight:900;letter-spacing:-1px}
+.accent{color:var(--lime)}
+.cyan{color:var(--cyan)}
+.purple{color:var(--purple)}
+.red{color:var(--red)}
+.gold{color:var(--gold)}
+.progress{height:8px;background:#090d13;border-radius:99px;overflow:hidden;margin-top:10px}
+.progress>span{display:block;height:100%;width:0;background:var(--lime);border-radius:99px;transition:width .3s}
+.progress.cyanbar>span{background:var(--cyan)}
+.progress.purplebar>span{background:var(--purple)}
+.progress.redbar>span{background:var(--red)}
+.btn{
+  border:1px solid var(--line);background:var(--panel2);color:var(--text);
+  padding:10px 14px;border-radius:11px;font-weight:750;font-size:.82rem;
+  transition:.15s
+}
+.btn:hover{filter:brightness(1.15);transform:translateY(-1px)}
+.btn-primary{background:var(--lime);border-color:var(--lime);color:#11170c}
+.btn-danger{color:var(--red);border-color:rgba(255,107,120,.25)}
+.btn-ghost{background:transparent}
+.btn-block{width:100%}
+.btn-small{padding:7px 10px;font-size:.74rem}
+.input,select,textarea{
+  width:100%;background:#0e141d;color:var(--text);
+  border:1px solid var(--line);border-radius:11px;
+  padding:12px;outline:none
+}
+textarea{resize:vertical;min-height:85px}
+label{display:grid;gap:7px;font-size:.78rem;color:#c7ccd5}
+.form{display:grid;gap:13px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.hud{
+  display:grid;grid-template-columns:1.35fr 1fr 1fr;gap:14px;margin-bottom:16px
+}
+.player-card{
+  background:linear-gradient(120deg,rgba(184,243,107,.13),rgba(99,216,230,.04)),var(--panel);
+  border-color:rgba(184,243,107,.2)
+}
+.player-line{display:flex;align-items:center;gap:13px}
+.avatar{
+  width:54px;height:54px;display:grid;place-items:center;
+  background:linear-gradient(140deg,var(--lime),var(--cyan));
+  color:#111;font-size:1.5rem;font-weight:950;border-radius:17px
+}
+.player-line h3{margin:0 0 4px}
+.player-line p{margin:0;font-size:.76rem;color:var(--muted)}
+.metric{display:flex;flex-direction:column;justify-content:center}
+.metric .big{margin:6px 0 0}
+.mission-row,.list-row{
+  display:flex;align-items:center;gap:12px;padding:12px 0;
+  border-bottom:1px solid var(--line)
+}
+.mission-row:last-child,.list-row:last-child{border-bottom:0}
+.mission-icon{
+  width:39px;height:39px;display:grid;place-items:center;
+  border-radius:12px;background:var(--panel2);font-size:1.1rem;flex:0 0 auto
+}
+.mission-info{flex:1;min-width:0}
+.mission-info strong{font-size:.86rem;display:block}
+.mission-info small{color:var(--muted);font-size:.72rem}
+.mission-actions{display:flex;gap:6px;align-items:center}
+.done-tag{font-size:.7rem;color:var(--lime)}
+.boss{
+  background:linear-gradient(125deg,rgba(169,139,255,.15),rgba(245,200,106,.05)),var(--panel);
+  border-color:rgba(169,139,255,.2)
+}
+.boss-icon{font-size:2rem}
+.chip{display:inline-flex;align-items:center;gap:5px;padding:5px 9px;border-radius:99px;background:var(--panel2);font-size:.68rem;color:var(--muted)}
+.shop-item{display:flex;flex-direction:column;gap:10px}
+.shop-item .shop-icon{font-size:1.8rem}
+.shop-item strong{font-size:.9rem}
+.shop-item p{font-size:.75rem;color:var(--muted);margin:0;flex:1}
+.event-date{min-width:54px;text-align:center;background:var(--panel2);padding:8px;border-radius:10px}
+.event-date b{font-size:1.2rem;display:block}
+.event-date small{color:var(--muted);font-size:.65rem}
+.chat-log{height:310px;overflow:auto;display:flex;flex-direction:column;gap:10px;padding:4px 0 15px}
+.bubble{max-width:85%;padding:11px 13px;border-radius:14px;font-size:.82rem;line-height:1.5}
+.bubble.bot{background:var(--panel2);align-self:flex-start;border-bottom-left-radius:4px}
+.bubble.user{background:rgba(184,243,107,.14);border:1px solid rgba(184,243,107,.2);align-self:flex-end;border-bottom-right-radius:4px}
+.chat-form{display:flex;gap:8px}
+.chat-form input{flex:1;min-width:0}
+.modal{
+  position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:30;
+  display:none;align-items:center;justify-content:center;padding:16px
+}
+.modal.open{display:flex}
+.modal-box{width:min(480px,100%);max-height:90vh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:22px}
+.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.modal-head h3{margin:0}
+.toast{
+  position:fixed;bottom:25px;left:50%;transform:translate(-50%,20px);
+  background:#e7f8d4;color:#17200e;padding:12px 17px;border-radius:12px;
+  font-size:.82rem;font-weight:800;opacity:0;pointer-events:none;
+  transition:.2s;z-index:60;max-width:90%;text-align:center
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.bottom-nav{display:none}
+.empty{padding:20px;text-align:center;border:1px dashed var(--line);border-radius:12px;color:var(--muted);font-size:.82rem}
+.separator{height:1px;background:var(--line);margin:16px 0}
+.checkbox-line{display:flex;align-items:center;gap:9px}
+.checkbox-line input{accent-color:var(--lime)}
+.review-summary{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.hidden{display:none!important}
+.footer-note{font-size:.7rem;color:#697386;margin-top:18px;text-align:center}
+@media(max-width:1000px){
+  .grid-4{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .hud{grid-template-columns:1fr 1fr}
+  .player-card{grid-column:span 2}
+}
+@media(max-width:720px){
+  .sidebar{display:none}
+  .main{margin:0;padding:19px 15px 100px}
+  .topbar{margin-bottom:24px}
+  .mobile-menu{display:block}
+  .top-stats .stat-pill:nth-child(2){display:none}
+  .grid-3,.grid-2{grid-template-columns:1fr}
+  .grid-4{grid-template-columns:1fr 1fr}
+  .hud{grid-template-columns:1fr 1fr}
+  .player-card{grid-column:span 2}
+  .bottom-nav{
+    display:grid;grid-template-columns:repeat(5,1fr);
+    position:fixed;bottom:0;left:0;right:0;z-index:20;
+    background:rgba(16,21,30,.96);backdrop-filter:blur(16px);
+    border-top:1px solid var(--line);padding:8px 4px calc(8px + env(safe-area-inset-bottom))
+  }
+  .bottom-nav button{
+    background:transparent;border:0;color:var(--muted);
+    display:grid;justify-items:center;gap:3px;font-size:.62rem;padding:5px 0
+  }
+  .bottom-nav button span{font-size:1.15rem}
+  .bottom-nav button.active{color:var(--lime)}
+  .form-row{grid-template-columns:1fr}
+}
+@media(max-width:380px){
+  .grid-4{grid-template-columns:1fr}
+  .mission-actions .btn{padding:7px;font-size:.68rem}
+}
+</style>
 </head>
 
 <body>
-  <div class="app">
-    <header class="top" aria-label="Cabeçalho do RITMO">
-      <div class="brand">
-        <div class="logo" aria-hidden="true">R</div>
-        <div>
-          <h1>RITMO</h1>
-          <small>SUA VIDA É O JOGO</small>
-        </div>
-      </div>
+<div class="app">
 
-      <div class="hud" aria-label="Status do jogador">
-        <div class="pill">♥ Vida <b id="hudHp">100/100</b></div>
-        <div class="pill">Nível <b id="hudLevel">1</b></div>
-        <div class="pill">XP <b id="hudXp">0/100</b></div>
-        <div class="pill">◈ <b id="hudCoins">0 MC</b></div>
-      </div>
-    </header>
-
-    <div class="layout">
-      <aside class="side" id="sideNav" aria-label="Navegação principal"></aside>
-
-      <main class="main" id="main-content">
-        <section class="page active" id="page-today" aria-labelledby="today-title">
-          <div class="page-head">
-            <div>
-              <div class="eyebrow" id="todayDate">SEU DIA</div>
-              <h2 id="today-title">Hoje é dia de evoluir.</h2>
-              <div class="muted" id="greeting">Uma missão de cada vez.</div>
-            </div>
-            <button class="btn" type="button" onclick="openMission()">＋ Nova missão</button>
-          </div>
-
-          <section class="card hero" aria-label="Status do personagem">
-            <div class="grid two">
-              <div>
-                <div class="eyebrow">STATUS DO PERSONAGEM</div>
-                <h3 id="heroName">Aventureiro</h3>
-                <div class="big" id="heroLevel">Nível 1</div>
-                <div class="label">XP para o próximo nível</div>
-                <div class="bar xp" role="progressbar" aria-label="Progresso de XP">
-                  <i id="heroXpBar"></i>
-                </div>
-                <div class="label" id="heroXpText">0 / 100 XP</div>
-              </div>
-
-              <div>
-                <div class="eyebrow">VITALIDADE</div>
-                <div class="big" id="heroHp">100 <small style="font-size:15px;color:var(--muted)">/ 100</small></div>
-                <div class="bar hp" role="progressbar" aria-label="Vitalidade">
-                  <i id="heroHpBar"></i>
-                </div>
-                <div class="label">A vida representa sua capacidade de manter o ritmo. Revise antes de aplicar consequências.</div>
-              </div>
-            </div>
-
-            <div class="actions">
-              <button class="btn" type="button" onclick="go('review')">Fechar o dia / Revisar</button>
-              <button class="btn secondary" type="button" onclick="go('missions')">Ver missões</button>
-            </div>
-          </section>
-
-          <div class="grid two" style="margin-top:14px">
-            <section class="card" aria-labelledby="today-missions-title">
-              <h3 id="today-missions-title">Missões de hoje <span class="muted" id="todayCount"></span></h3>
-              <div class="list" id="todayMissions"></div>
-            </section>
-
-            <section class="card" aria-labelledby="today-events-title">
-              <h3 id="today-events-title">Próximos compromissos</h3>
-              <div class="list" id="todayEvents"></div>
-              <div class="actions">
-                <button class="btn secondary small" type="button" onclick="go('agenda')">Abrir agenda</button>
-              </div>
-            </section>
-          </div>
-
-          <section class="card" style="margin-top:14px" aria-labelledby="progress-summary-title">
-            <h3 id="progress-summary-title">Resumo do progresso</h3>
-            <div class="grid three">
-              <div><div class="stat" id="doneStat">0</div><div class="label">Missões concluídas</div></div>
-              <div><div class="stat" id="pendingStat">0</div><div class="label">Pendentes</div></div>
-              <div><div class="stat" id="streakStat">0</div><div class="label">Dias perfeitos registrados</div></div>
-            </div>
-          </section>
-        </section>
-
-        <section class="page" id="page-missions" aria-labelledby="missions-title">
-          <div class="page-head">
-            <div>
-              <div class="eyebrow">EXECUÇÃO</div>
-              <h2 id="missions-title">Missões</h2>
-              <div class="muted">Transforme intenção em ação.</div>
-            </div>
-            <button class="btn" type="button" onclick="openMission()">＋ Nova missão</button>
-          </div>
-
-          <div class="tabs" id="missionFilters" aria-label="Filtrar missões">
-            <button class="filter active" type="button" data-filter="all">Todas</button>
-            <button class="filter" type="button" data-filter="habit">Hábitos</button>
-            <button class="filter" type="button" data-filter="daily">Diárias</button>
-            <button class="filter" type="button" data-filter="task">Tarefas</button>
-            <button class="filter" type="button" data-filter="pending">Pendentes</button>
-            <button class="filter" type="button" data-filter="done">Concluídas</button>
-          </div>
-
-          <section class="card" aria-label="Lista de missões">
-            <div class="list" id="allMissions"></div>
-          </section>
-        </section>
-
-        <section class="page" id="page-agenda" aria-labelledby="agenda-title">
-          <div class="page-head">
-            <div>
-              <div class="eyebrow">TEMPO E COMPROMISSOS</div>
-              <h2 id="agenda-title">Agenda</h2>
-              <div class="muted">Enxergue o que vem pela frente.</div>
-            </div>
-          </div>
-
-          <div class="grid two">
-            <section class="card">
-              <h3>Novo compromisso</h3>
-              <form id="eventForm">
-                <div class="field">
-                  <label for="eventTitle">Título</label>
-                  <input id="eventTitle" name="title" required maxlength="100" placeholder="Ex.: Estudar Python">
-                </div>
-
-                <div class="form-grid">
-                  <div class="field">
-                    <label for="eventDate">Data</label>
-                    <input id="eventDate" name="date" type="date" required>
-                  </div>
-                  <div class="field">
-                    <label for="eventTime">Horário</label>
-                    <input id="eventTime" name="time" type="time">
-                  </div>
-                </div>
-
-                <div class="field">
-                  <label for="eventDesc">Descrição</label>
-                  <textarea id="eventDesc" name="description" rows="2" maxlength="500" placeholder="Detalhes opcionais"></textarea>
-                </div>
-
-                <button class="btn" type="submit">Salvar compromisso</button>
-              </form>
-            </section>
-
-            <section class="card">
-              <h3>Compromissos cadastrados</h3>
-              <div class="list" id="eventList"></div>
-            </section>
-          </div>
-        </section>
-
-        <section class="page" id="page-progression" aria-labelledby="progression-title">
-          <div class="page-head">
-            <div>
-              <div class="eyebrow">EVOLUÇÃO DO JOGADOR</div>
-              <h2 id="progression-title">Progressão</h2>
-              <div class="muted">O histórico mostra o caminho, não só o placar.</div>
-            </div>
-          </div>
-
-          <div class="grid three">
-            <section class="card"><div class="label">Nível atual</div><div class="stat" id="progLevel">1</div></section>
-            <section class="card"><div class="label">XP acumulado</div><div class="stat" id="progXp">0</div></section>
-            <section class="card"><div class="label">Dias perfeitos</div><div class="stat" id="progPerfect">0</div></section>
-          </div>
-
-          <div class="grid two" style="margin-top:14px">
-            <section class="card">
-              <h3>Conquistas</h3>
-              <div class="list" id="achievements"></div>
-            </section>
-
-            <section class="card">
-              <h3>Vitórias pessoais</h3>
-              <form id="winForm">
-                <div class="field">
-                  <label for="winTitle">Qual foi sua vitória?</label>
-                  <input id="winTitle" name="title" required maxlength="120" placeholder="Ex.: Terminei um curso">
-                </div>
-                <button class="btn" type="submit">Registrar vitória</button>
-              </form>
-              <div class="list" id="wins" style="margin-top:12px"></div>
-            </section>
-          </div>
-
-          <section class="card" style="margin-top:14px">
-            <h3>Histórico de atividade</h3>
-            <div class="list" id="history"></div>
-          </section>
-        </section>
-
-        <section class="page" id="page-finance" aria-labelledby="finance-title">
-          <div class="page-head">
-            <div>
-              <div class="eyebrow">ECONOMIA DO JOGO</div>
-              <h2 id="finance-title">Finanças</h2>
-              <div class="muted">Entradas, saídas e evolução dos microcoins.</div>
-            </div>
-            <button class="btn" type="button" onclick="openTransaction()">＋ Movimentação</button>
-          </div>
-
-          <div class="grid three">
-            <section class="card"><div class="label">Saldo atual</div><div class="stat" id="balance">0 MC</div></section>
-            <section class="card"><div class="label">Total de entradas</div><div class="stat positive" id="income">+0 MC</div></section>
-            <section class="card"><div class="label">Total de saídas</div><div class="stat negative" id="expense">-0 MC</div></section>
-          </div>
-
-          <div class="grid two" style="margin-top:14px">
-            <section class="card">
-              <h3>Entradas × saídas</h3>
-              <canvas id="financeChart" class="chart" aria-label="Gráfico de entradas e saídas" role="img"></canvas>
-              <div class="label">Valores acumulados registrados no histórico.</div>
-            </section>
-
-            <section class="card">
-              <h3>Registrar movimentação</h3>
-              <form id="transactionForm">
-                <div class="form-grid">
-                  <div class="field">
-                    <label for="txType">Tipo</label>
-                    <select id="txType" name="type">
-                      <option value="in">Entrada</option>
-                      <option value="out">Saída</option>
-                    </select>
-                  </div>
-                  <div class="field">
-                    <label for="txAmount">Valor em MC</label>
-                    <input id="txAmount" name="amount" type="number" min="1" step="1" required>
-                  </div>
-                </div>
-
-                <div class="field">
-                  <label for="txCategory">Categoria</label>
-                  <select id="txCategory" name="category">
-                    <option>Recompensa de missão</option>
-                    <option>Bônus</option>
-                    <option>Curativo</option>
-                    <option>Consumível</option>
-                    <option>Desbloqueio</option>
-                    <option>Outro</option>
-                  </select>
-                </div>
-
-                <div class="field">
-                  <label for="txDesc">Descrição</label>
-                  <input id="txDesc" name="description" maxlength="160" placeholder="Detalhe da movimentação">
-                </div>
-
-                <button class="btn" type="submit">Registrar</button>
-              </form>
-            </section>
-          </div>
-
-          <section class="card" style="margin-top:14px">
-            <h3>Extrato</h3>
-            <div class="list" id="transactions"></div>
-          </section>
-
-          <p class="notice" style="margin-top:14px">
-            Microcoins e XP são sistemas separados. Esta versão registra movimentações manuais e recompensas demonstrativas. Regras definitivas de recompensa, loja e conversão precisam ser homologadas.
-          </p>
-        </section>
-
-        <section class="page" id="page-companion" aria-labelledby="companion-title">
-          <div class="page-head">
-            <div>
-              <div class="eyebrow">CENTRAL DE APOIO</div>
-              <h2 id="companion-title">Companheiro</h2>
-              <div class="muted">Um espaço para pensar o próximo movimento.</div>
-            </div>
-          </div>
-
-          <section class="card">
-            <div class="eyebrow">WATTSON LOCAL · DEMONSTRAÇÃO</div>
-            <h3>Como posso ajudar na sua jornada?</h3>
-            <div class="list" id="chatMessages" aria-live="polite" aria-relevant="additions">
-              <div class="item">
-                <div class="item-main">Vamos transformar seus objetivos em missões claras. O que está ocupando sua cabeça hoje?</div>
-              </div>
-            </div>
-
-            <form id="chatForm" style="display:flex;gap:8px;margin-top:14px">
-              <label class="sr-only" for="chatInput">Sua mensagem</label>
-              <input id="chatInput" name="message" placeholder="Escreva sua mensagem..." required maxlength="1000">
-              <button class="btn" type="submit">Enviar</button>
-            </form>
-
-            <p class="label" style="margin-top:10px">Este companheiro é local e demonstrativo. Não há conexão com um modelo de IA nesta versão.</p>
-          </section>
-        </section>
-
-        <section class="page" id="page-character" aria-labelledby="character-title">
-          <div class="page-head">
-            <div>
-              <div class="eyebrow">IDENTIDADE</div>
-              <h2 id="character-title">Personagem</h2>
-              <div class="muted">Configure quem está vivendo esta jornada.</div>
-            </div>
-          </div>
-
-          <div class="grid two">
-            <section class="card">
-              <h3>Ficha do personagem</h3>
-              <form id="profileForm">
-                <div class="field">
-                  <label for="profileName">Seu nome</label>
-                  <input id="profileName" name="name" maxlength="60" placeholder="Como podemos chamar você?">
-                </div>
-
-                <div class="field">
-                  <label for="warriorName">Nome de guerreiro</label>
-                  <input id="warriorName" name="warriorName" maxlength="60" placeholder="Seu codinome">
-                </div>
-
-                <div class="field">
-                  <label for="className">Classe</label>
-                  <select id="className" name="className">
-                    <option>Explorador</option>
-                    <option>Guardião</option>
-                    <option>Cientista</option>
-                    <option>Artista</option>
-                    <option>Batedor</option>
-                  </select>
-                </div>
-
-                <div class="field">
-                  <label for="goal">Objetivo principal</label>
-                  <textarea id="goal" name="goal" rows="3" maxlength="500" placeholder="O que você quer construir?"></textarea>
-                </div>
-
-                <div class="field">
-                  <label for="personalRule">Regra pessoal</label>
-                  <input id="personalRule" name="personalRule" maxlength="160" placeholder="Ex.: Feito é melhor que perfeito">
-                </div>
-
-                <button class="btn" type="submit">Salvar personagem</button>
-              </form>
-            </section>
-
-            <section class="card">
-              <h3>Regras de jornada</h3>
-              <p class="muted">As consequências são aplicadas somente após sua revisão. O RITMO não deve presumir que uma missão falhou só porque não foi marcada.</p>
-              <div class="metric"><span>Confirmação manual</span><b class="positive">Ativa</b></div>
-              <div class="metric"><span>Vida excedente</span><b>Não convertida automaticamente</b></div>
-              <div class="metric"><span>Histórico</span><b>Local neste dispositivo</b></div>
-              <div class="actions">
-                <button class="btn secondary" type="button" onclick="exportData()">Exportar dados</button>
-                <button class="btn danger" type="button" onclick="resetData()">Zerar demonstração</button>
-              </div>
-            </section>
-          </div>
-        </section>
-
-        <section class="page" id="page-review" aria-labelledby="review-title">
-          <div class="page-head">
-            <div>
-              <div class="eyebrow">FECHAMENTO DO DIA</div>
-              <h2 id="review-title">Revisão diária</h2>
-              <div class="muted">Você confirma o que aconteceu. Só então o sistema calcula consequências.</div>
-            </div>
-            <button class="btn secondary" type="button" onclick="go('today')">Voltar</button>
-          </div>
-
-          <section class="card">
-            <h3>Como foi seu dia?</h3>
-            <div class="grid three" id="reviewStats"></div>
-
-            <div class="notice" style="margin:14px 0">
-              Marque cada missão como concluída ou não realizada. Missões sem confirmação ficam pendentes e não geram dano automaticamente.
-            </div>
-
-            <div class="list" id="reviewList"></div>
-
-            <div class="field" style="margin-top:14px">
-              <label for="reviewNote">Nota sobre o dia (opcional)</label>
-              <textarea id="reviewNote" rows="3" maxlength="1000" placeholder="O que funcionou? O que dificultou?"></textarea>
-            </div>
-
-            <button class="btn" type="button" onclick="saveReview()">Confirmar revisão</button>
-          </section>
-        </section>
-      </main>
-    </div>
-
-    <nav class="bottom" id="bottomNav" aria-label="Navegação inferior"></nav>
+<aside class="sidebar">
+  <div class="brand">
+    <div class="brand-mark">RITMO<span> × </span>GG FIT</div>
+    <small>YOUR LIFE. YOUR GAME.</small>
   </div>
 
-  <div class="modal-backdrop" id="missionModal" role="dialog" aria-modal="true" aria-labelledby="missionModalTitle">
-    <div class="modal">
-      <div class="modal-head">
-        <h3 id="missionModalTitle">Nova missão</h3>
-        <button class="close" type="button" aria-label="Fechar" onclick="closeModal('missionModal')">×</button>
+  <div class="nav-label">JORNADA</div>
+  <nav class="nav" id="sideNav">
+    <button class="active" data-page="home"><span class="ico">⌂</span> Hoje</button>
+    <button data-page="missions"><span class="ico">◈</span> Missões</button>
+    <button data-page="workout"><span class="ico">⚡</span> GG FIT</button>
+    <button data-page="agenda"><span class="ico">▦</span> Agenda</button>
+    <button data-page="progress"><span class="ico">↗</span> Progressão</button>
+    <button data-page="finance"><span class="ico">◉</span> Finanças</button>
+    <button data-page="shop"><span class="ico">◇</span> Loja</button>
+    <button data-page="character"><span class="ico">♙</span> Personagem</button>
+    <button data-page="companion"><span class="ico">✧</span> Wattson</button>
+    <button data-page="review"><span class="ico">☑</span> Revisão diária</button>
+  </nav>
+  <div class="sidebar-bottom">RITMO × GG FIT · BUILD 1.0<br>Seus dados ficam neste dispositivo.</div>
+</aside>
+
+<main class="main">
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="btn mobile-menu" onclick="go('home')">☰</button>
+      <div>
+        <h1 id="topTitle">Painel de hoje</h1>
+        <p id="todayDate"></p>
+      </div>
+    </div>
+    <div class="top-stats">
+      <div class="stat-pill">⚡ <b id="topXP">0 XP</b></div>
+      <div class="stat-pill">◈ <b id="topCoins">0 MC</b></div>
+      <div class="stat-pill">♥ <b id="topHP">100 HP</b></div>
+    </div>
+  </header>
+
+  <!-- HOJE -->
+  <section class="view active" id="page-home">
+    <div class="page-heading">
+      <span class="eyebrow">SEU PRÓXIMO NÍVEL COMEÇA AGORA</span>
+      <h2>Hoje é seu campo de jogo.</h2>
+      <p>Um passo concluído vale mais que dez planos abandonados.</p>
+    </div>
+
+    <div class="hud">
+      <div class="card player-card">
+        <div class="player-line">
+          <div class="avatar" id="homeAvatar">P</div>
+          <div style="flex:1">
+            <span class="eyebrow" id="homeRank">NOVATO</span>
+            <h3 id="homeName">Player</h3>
+            <p id="homeLevel">Nível 1 · Explorador</p>
+          </div>
+        </div>
+        <div style="margin-top:17px;display:flex;justify-content:space-between">
+          <span class="small muted">Experiência</span>
+          <b class="small" id="xpLabel">0 / 100 XP</b>
+        </div>
+        <div class="progress"><span id="xpBar"></span></div>
       </div>
 
-      <form id="missionForm">
-        <div class="field">
-          <label for="missionTitle">Nome da missão</label>
-          <input id="missionTitle" name="title" required maxlength="120" placeholder="Ex.: Estudar programação">
+      <div class="card metric">
+        <span class="eyebrow">VIDA</span>
+        <div class="big red" id="homeHP">100</div>
+        <div class="progress redbar"><span id="hpBar"></span></div>
+        <small class="muted" id="hpText">100 / 100 HP</small>
+      </div>
+
+      <div class="card metric">
+        <span class="eyebrow">MICROCOINS</span>
+        <div class="big gold" id="homeCoins">0</div>
+        <small class="muted">Moeda da sua jornada</small>
+      </div>
+    </div>
+
+    <div class="grid grid-2">
+      <div class="card">
+        <div class="card-head">
+          <h3>Missões de hoje</h3>
+          <span class="chip" id="homeMissionCount">0/0</span>
+        </div>
+        <div id="homeMissions"></div>
+        <button class="btn btn-ghost btn-block" style="margin-top:10px" onclick="go('missions')">Ver todas as missões →</button>
+      </div>
+
+      <div class="grid">
+        <div class="card boss">
+          <div class="card-head">
+            <h3>Chefe da semana</h3><span class="chip">BOSS</span>
+          </div>
+          <div class="boss-icon">👹</div>
+          <h3 id="bossName" style="margin:8px 0">Guardião da Constância</h3>
+          <p class="small muted" id="bossDescription">Conclua 5 treinos nesta semana.</p>
+          <div class="progress purplebar"><span id="bossBar"></span></div>
+          <div class="small muted" id="bossProgress" style="margin-top:7px">0/5 treinos</div>
         </div>
 
-        <div class="field">
-          <label for="missionDescription">Descrição</label>
-          <textarea id="missionDescription" name="description" rows="2" maxlength="500"></textarea>
+        <div class="card">
+          <div class="card-head"><h3>Resumo da jornada</h3><span class="chip">HOJE</span></div>
+          <div class="grid grid-2">
+            <div><span class="eyebrow">MISSÕES</span><div class="big accent" id="summaryMissions">0</div></div>
+            <div><span class="eyebrow">TREINOS</span><div class="big cyan" id="summaryWorkouts">0</div></div>
+          </div>
+          <p class="small muted" id="dailyMessage">Escolha sua primeira missão.</p>
         </div>
+      </div>
+    </div>
+  </section>
 
-        <div class="form-grid">
-          <div class="field">
-            <label for="missionType">Categoria</label>
-            <select id="missionType" name="type">
-              <option value="habit">Hábito</option>
-              <option value="daily">Diária</option>
-              <option value="task">Tarefa</option>
+  <!-- MISSÕES -->
+  <section class="view" id="page-missions">
+    <div class="page-heading">
+      <span class="eyebrow">ROTINA E CONSISTÊNCIA</span>
+      <h2>Missões</h2>
+      <p>Organize o que precisa ser feito e registre o que realmente foi concluído.</p>
+    </div>
+    <div class="grid grid-2">
+      <div class="card">
+        <div class="card-head"><h3>Nova missão</h3><span class="chip">CRIAR</span></div>
+        <form class="form" id="missionForm">
+          <label>Nome da missão<input class="input" id="missionTitle" maxlength="65" placeholder="Ex.: Estudar programação" required></label>
+          <div class="form-row">
+            <label>Categoria
+              <select id="missionType">
+                <option value="daily">Diária</option>
+                <option value="habit">Hábito</option>
+                <option value="task">Tarefa</option>
+              </select>
+            </label>
+            <label>Dificuldade
+              <select id="missionDifficulty">
+                <option value="easy">Fácil</option>
+                <option value="medium">Média</option>
+                <option value="hard">Difícil</option>
+              </select>
+            </label>
+          </div>
+          <label>Recompensa em XP
+            <input class="input" id="missionXP" type="number" min="1" max="500" value="20">
+          </label>
+          <button class="btn btn-primary" type="submit">Criar missão</button>
+        </form>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>Resumo</h3><span class="chip">HOJE</span></div>
+        <div class="grid grid-2">
+          <div><span class="eyebrow">CONCLUÍDAS</span><div class="big accent" id="missionDone">0</div></div>
+          <div><span class="eyebrow">PENDENTES</span><div class="big gold" id="missionPending">0</div></div>
+        </div>
+        <div class="separator"></div>
+        <label class="checkbox-line"><input type="checkbox" id="disciplineToggle"> Modo disciplinado</label>
+        <p class="small muted">Quando ativado, missões não concluídas podem causar dano ao fechar o dia. A revisão é sempre manual.</p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:15px">
+      <div class="card-head">
+        <h3>Suas missões</h3>
+        <select id="missionFilter" style="width:auto;padding:8px">
+          <option value="all">Todas</option>
+          <option value="daily">Diárias</option>
+          <option value="habit">Hábitos</option>
+          <option value="task">Tarefas</option>
+        </select>
+      </div>
+      <div id="missionList"></div>
+    </div>
+  </section>
+
+  <!-- GG FIT -->
+  <section class="view" id="page-workout">
+    <div class="page-heading">
+      <span class="eyebrow">TREINO EM CASA</span>
+      <h2>GG FIT</h2>
+      <p>Movimento registrado, evolução acompanhada.</p>
+    </div>
+    <div class="grid grid-2">
+      <div class="card">
+        <div class="card-head"><h3>Seu treino</h3><span class="chip">ADAPTÁVEL</span></div>
+        <form class="form" id="workoutForm">
+          <label>Tipo de treino
+            <select id="workoutType">
+              <option value="full">Corpo inteiro</option>
+              <option value="upper">Membros superiores</option>
+              <option value="lower">Membros inferiores</option>
+              <option value="core">Abdômen e core</option>
+              <option value="cardio">Cardio</option>
+              <option value="mobility">Mobilidade e alongamento</option>
             </select>
-          </div>
-
-          <div class="field">
-            <label for="missionPriority">Prioridade</label>
-            <select id="missionPriority" name="priority">
-              <option>Normal</option>
-              <option>Alta</option>
-              <option>Crítica</option>
+          </label>
+          <label>Intensidade
+            <select id="workoutIntensity">
+              <option value="light">Leve</option>
+              <option value="normal" selected>Moderada</option>
+              <option value="strong">Intensa</option>
             </select>
-          </div>
+          </label>
+          <label>Duração (minutos)
+            <input class="input" id="workoutMinutes" type="number" min="1" max="240" value="20">
+          </label>
+          <button class="btn btn-primary" type="submit">Registrar treino concluído</button>
+        </form>
+      </div>
+      <div class="card">
+        <span class="eyebrow">TREINOS NESTA SEMANA</span>
+        <div class="big cyan" id="weeklyWorkouts">0</div>
+        <p class="small muted">Meta semanal: 5 treinos.</p>
+        <div class="progress cyanbar"><span id="weeklyWorkoutBar"></span></div>
+        <div class="separator"></div>
+        <span class="eyebrow">TEMPO TOTAL DE TREINO</span>
+        <div class="big" id="totalWorkoutMinutes">0 min</div>
+        <p class="small muted">Cada registro conta para sua evolução.</p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:15px">
+      <div class="card-head"><h3>Histórico de treinos</h3><span class="chip">REGISTROS</span></div>
+      <div id="workoutHistory"></div>
+    </div>
+  </section>
 
-          <div class="field">
-            <label for="missionXp">XP da missão</label>
-            <input id="missionXp" name="xp" type="number" min="1" max="10000" value="20">
+  <!-- AGENDA -->
+  <section class="view" id="page-agenda">
+    <div class="page-heading">
+      <span class="eyebrow">PLANEJAMENTO</span>
+      <h2>Agenda</h2>
+      <p>Compromissos, eventos e prazos.</p>
+    </div>
+    <div class="grid grid-2">
+      <div class="card">
+        <h3>Novo evento</h3>
+        <form class="form" id="eventForm">
+          <label>Nome<input class="input" id="eventTitle" maxlength="70" required placeholder="Ex.: Entregar projeto"></label>
+          <div class="form-row">
+            <label>Data<input class="input" id="eventDate" type="date" required></label>
+            <label>Horário<input class="input" id="eventTime" type="time"></label>
           </div>
+          <label>Observação<input class="input" id="eventNote" maxlength="140" placeholder="Opcional"></label>
+          <button class="btn btn-primary">Adicionar evento</button>
+        </form>
+      </div>
+      <div class="card">
+        <h3>Próximos compromissos</h3>
+        <div id="upcomingEvents"></div>
+      </div>
+    </div>
+  </section>
 
-          <div class="field">
-            <label for="missionDamage">Impacto na vida</label>
-            <input id="missionDamage" name="damage" type="number" min="0" max="100" value="5">
-          </div>
+  <!-- PROGRESSÃO -->
+  <section class="view" id="page-progress">
+    <div class="page-heading">
+      <span class="eyebrow">EVOLUÇÃO</span>
+      <h2>Progressão</h2>
+      <p>O histórico daquilo que você construiu.</p>
+    </div>
+    <div class="grid grid-3">
+      <div class="card"><span class="eyebrow">NÍVEL</span><div class="big accent" id="progressLevel">1</div></div>
+      <div class="card"><span class="eyebrow">XP TOTAL</span><div class="big cyan" id="progressXP">0</div></div>
+      <div class="card"><span class="eyebrow">DIAS PERFEITOS</span><div class="big gold" id="perfectDays">0</div></div>
+    </div>
+    <div class="grid grid-2" style="margin-top:15px">
+      <div class="card">
+        <h3>Conquistas</h3>
+        <div id="achievements"></div>
+      </div>
+      <div class="card">
+        <h3>Estatísticas</h3>
+        <div class="list-row"><span class="muted small">Missões concluídas</span><b id="statMissions">0</b></div>
+        <div class="list-row"><span class="muted small">Treinos registrados</span><b id="statWorkouts">0</b></div>
+        <div class="list-row"><span class="muted small">Dias revisados</span><b id="statReviews">0</b></div>
+        <div class="list-row"><span class="muted small">Maior sequência</span><b id="statStreak">0 dias</b></div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:15px">
+      <div class="card-head"><h3>Histórico recente</h3></div>
+      <div id="activityHistory"></div>
+    </div>
+  </section>
 
-          <div class="field">
-            <label for="missionTime">Horário</label>
-            <input id="missionTime" name="time" type="time">
+  <!-- FINANÇAS -->
+  <section class="view" id="page-finance">
+    <div class="page-heading">
+      <span class="eyebrow">ECONOMIA PESSOAL</span>
+      <h2>Finanças</h2>
+      <p>Microcoins são uma moeda interna. Não representam dinheiro real.</p>
+    </div>
+    <div class="card player-card" style="margin-bottom:15px">
+      <span class="eyebrow">CARTEIRA DE MICROCOINS</span>
+      <div class="big gold" id="walletBalance">0 ◈</div>
+      <p class="small muted">Saldo disponível para recompensas e compras na loja.</p>
+    </div>
+    <div class="grid grid-2">
+      <div class="card">
+        <h3>Registrar movimentação</h3>
+        <form class="form" id="transactionForm">
+          <label>Descrição<input class="input" id="transactionTitle" maxlength="70" required></label>
+          <div class="form-row">
+            <label>Tipo<select id="transactionType"><option value="in">Entrada</option><option value="out">Saída</option></select></label>
+            <label>Valor<input class="input" id="transactionValue" type="number" min="1" max="1000000" required></label>
           </div>
+          <button class="btn btn-primary">Registrar</button>
+        </form>
+      </div>
+      <div class="card">
+        <h3>Movimentações</h3>
+        <div id="transactionHistory"></div>
+      </div>
+    </div>
+  </section>
 
-          <div class="field">
-            <label for="missionDuration">Duração (min)</label>
-            <input id="missionDuration" name="duration" type="number" min="5" max="480" value="30">
-          </div>
-
-          <div class="field">
-            <label for="missionStart">Data de início</label>
-            <input id="missionStart" name="start" type="date">
-          </div>
-
-          <div class="field">
-            <label for="missionDue">Prazo (opcional)</label>
-            <input id="missionDue" name="due" type="date">
-          </div>
+  <!-- LOJA -->
+  <section class="view" id="page-shop">
+    <div class="page-heading">
+      <span class="eyebrow">RECOMPENSAS</span>
+      <h2>Loja</h2>
+      <p>Troque Microcoins por recompensas definidas por você.</p>
+    </div>
+    <div class="grid grid-3" id="shopGrid"></div>
+    <div class="card" style="margin-top:15px">
+      <h3>Adicionar recompensa personalizada</h3>
+      <form class="form" id="rewardForm">
+        <div class="form-row">
+          <label>Nome<input class="input" id="rewardName" maxlength="45" required placeholder="Ex.: Uma noite de filme"></label>
+          <label>Preço em MC<input class="input" id="rewardPrice" type="number" min="1" max="100000" required></label>
         </div>
-
-        <div class="field">
-          <label for="missionDays">Dias da semana para hábitos/diárias</label>
-          <input id="missionDays" name="days" maxlength="100" placeholder="Ex.: seg, qua, sex">
-        </div>
-
-        <button class="btn" type="submit">Salvar missão</button>
+        <button class="btn btn-primary">Adicionar à loja</button>
       </form>
     </div>
-  </div>
+  </section>
 
-  <div class="modal-backdrop" id="transactionModal" role="dialog" aria-modal="true" aria-labelledby="transactionModalTitle">
-    <div class="modal">
-      <div class="modal-head">
-        <h3 id="transactionModalTitle">Movimentação financeira</h3>
-        <button class="close" type="button" aria-label="Fechar" onclick="closeModal('transactionModal')">×</button>
+  <!-- PERSONAGEM -->
+  <section class="view" id="page-character">
+    <div class="page-heading">
+      <span class="eyebrow">SUA IDENTIDADE</span>
+      <h2>Personagem</h2>
+      <p>Configure a identidade da sua jornada.</p>
+    </div>
+    <div class="card">
+      <div class="player-line" style="margin-bottom:20px">
+        <div class="avatar" id="characterAvatar">P</div>
+        <div><span class="eyebrow" id="characterRank">NOVATO</span><h3 id="characterName">Player</h3><p class="muted small" id="characterClass">Explorador</p></div>
       </div>
-      <p class="muted">Use o formulário da aba Finanças para registrar entradas e saídas.</p>
-      <button class="btn" type="button" onclick="closeModal('transactionModal');go('finance')">Ir para Finanças</button>
+      <form class="form" id="profileForm">
+        <label>Nome<input class="input" id="profileName" maxlength="24" required></label>
+        <label>Classe<input class="input" id="profileClass" maxlength="32" placeholder="Explorador"></label>
+        <label>Objetivo atual<input class="input" id="profileGoal" maxlength="120" placeholder="O que você quer alcançar?"></label>
+        <label>Regra pessoal<input class="input" id="profileRule" maxlength="120" placeholder="Sua regra de ouro"></label>
+        <button class="btn btn-primary">Salvar personagem</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- COMPANHEIRO -->
+  <section class="view" id="page-companion">
+    <div class="page-heading">
+      <span class="eyebrow">COMPANHEIRO DE JORNADA</span>
+      <h2>Wattson</h2>
+      <p>Um assistente local simples para organizar seu próximo passo.</p>
+    </div>
+    <div class="card">
+      <div class="player-line" style="margin-bottom:15px">
+        <div class="avatar">W</div>
+        <div><h3>Wattson</h3><p>Modo local · respostas predefinidas</p></div>
+      </div>
+      <div class="chat-log" id="chatLog">
+        <div class="bubble bot">Estou por aqui. Qual é a próxima missão que precisamos tirar do papel?</div>
+      </div>
+      <form class="chat-form" id="chatForm">
+        <input class="input" id="chatInput" maxlength="500" placeholder="Escreva sua mensagem..." required>
+        <button class="btn btn-primary">Enviar</button>
+      </form>
+      <p class="footer-note">Esta versão não está conectada a um modelo de IA remoto.</p>
+    </div>
+  </section>
+
+  <!-- REVISÃO -->
+  <section class="view" id="page-review">
+    <div class="page-heading">
+      <span class="eyebrow">FECHAMENTO DO CICLO</span>
+      <h2>Revisão diária</h2>
+      <p>Revise o dia antes de encerrar sua jornada.</p>
+    </div>
+    <div class="card">
+      <div class="review-summary">
+        <div><span class="eyebrow">VIDA ATUAL</span><div class="big red"><span id="reviewHP">100</span><small class="muted" style="font-size:.9rem"> / 100</small></div></div>
+        <span class="chip" id="reviewStatus">Não iniciado</span>
+      </div>
+      <div class="progress redbar"><span id="reviewHPBar"></span></div>
+      <div class="separator"></div>
+      <div id="reviewMissionList"></div>
+      <div class="separator"></div>
+      <p class="small muted" id="reviewExplanation">Inicie seu dia no botão abaixo. Você poderá fechá-lo uma única vez.</p>
+      <button class="btn btn-primary btn-block" id="reviewButton">Iniciar dia</button>
+    </div>
+    <div class="card" style="margin-top:15px">
+      <h3>Regras de revisão</h3>
+      <p class="small muted">Sem modo disciplinado, missões pendentes não causam dano. Com modo disciplinado, o dano é calculado no fechamento. XP nunca é removido. Um dia perfeito recupera vida. Não existe punição automática por deixar uma missão pendente.</p>
+    </div>
+  </section>
+
+  <div class="footer-note">RITMO × GG FIT · Seus dados pertencem a você.</div>
+</main>
+
+<nav class="bottom-nav" id="bottomNav">
+  <button class="active" data-page="home"><span>⌂</span>Hoje</button>
+  <button data-page="missions"><span>◈</span>Missões</button>
+  <button data-page="workout"><span>⚡</span>Treino</button>
+  <button data-page="progress"><span>↗</span>Progresso</button>
+  <button data-page="review"><span>☑</span>Revisão</button>
+</nav>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="modal" id="confirmModal" role="dialog" aria-modal="true">
+  <div class="modal-box">
+    <div class="modal-head"><h3 id="confirmTitle">Confirmar ação</h3><button class="btn btn-ghost" onclick="closeModal()">✕</button></div>
+    <p class="muted small" id="confirmText"></p>
+    <div class="form-row" style="margin-top:20px">
+      <button class="btn" onclick="closeModal()">Cancelar</button>
+      <button class="btn btn-primary" id="confirmAction">Confirmar</button>
     </div>
   </div>
+</div>
 
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+"use strict";
 
-  <!-- Compatibilidade: este HTML usa os IDs e handlers do ritmo-fusion.js. -->
-  <script src="ritmo-fusion.js" defer></script>
+/* =========================================================
+   RITMO × GG FIT
+   BUILD 1.0 · MOTOR AUTOCONTIDO
+========================================================= */
+
+const STORAGE_KEY = "ritmo_ggfit_single_v1";
+const DAY = () => new Date().toISOString().slice(0,10);
+const $ = id => document.getElementById(id);
+const uid = () => (crypto.randomUUID ? crypto.randomUUID() : Date.now()+"_"+Math.random().toString(16).slice(2));
+const clamp = (n,min,max) => Math.max(min,Math.min(max,n));
+const esc = value => String(value ?? "").replace(/[&<>"']/g,c=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+}[c]));
+const dateLabel = iso => {
+  if(!iso)return "";
+  const [y,m,d]=iso.split("-").map(Number);
+  return new Intl.DateTimeFormat("pt-BR",{day:"2-digit",month:"short",year:"numeric"}).format(new Date(y,m-1,d));
+};
+const dateKey = date => date.toISOString().slice(0,10);
+const weekStart = (date = new Date()) => {
+  const d = new Date(date);
+  d.setHours(0,0,0,0);
+  d.setDate(d.getDate()-((d.getDay()+6)%7));
+  return dateKey(d);
+};
+
+function initialState(){
+  return {
+    version:1,
+    createdAt:Date.now(),
+    profile:{
+      name:"Player",
+      className:"Explorador",
+      goal:"",
+      rule:"Um passo de cada vez."
+    },
+    xp:0,
+    coins:0,
+    hp:100,
+    disciplined:false,
+    streak:0,
+    bestStreak:0,
+    lastActive:null,
+    lastReview:null,
+    day:{
+      date:DAY(),
+      started:false,
+      closed:false,
+      perfect:false,
+      damage:0,
+      heal:0
+    },
+    missions:[
+      {id:uid(),title:"Beber água",type:"habit",difficulty:"easy",xp:10,icon:"💧",doneDates:[]},
+      {id:uid(),title:"Movimentar o corpo",type:"daily",difficulty:"medium",xp:20,icon:"⚡",doneDates:[]},
+      {id:uid(),title:"Organizar o dia",type:"daily",difficulty:"easy",xp:10,icon:"🧭",doneDates:[]}
+    ],
+    workouts:[],
+    events:[],
+    transactions:[],
+    rewards:[
+      {id:"rest",name:"Tempo livre especial",price:100,icon:"☕"},
+      {id:"movie",name:"Noite de filme",price:150,icon:"🎬"},
+      {id:"hobby",name:"Sessão de hobby",price:200,icon:"🎮"}
+    ],
+    purchases:[],
+    reviews:[],
+    history:[],
+    chat:[],
+    achievements:[],
+    boss:{
+      week:weekStart(),
+      target:5,
+      reward:100,
+      claimed:false
+    },
+    secondChanceUsed:false
+  };
+}
+
+function loadState(){
+  try{
+    const raw=localStorage.getItem(STORAGE_KEY);
+    if(!raw)return initialState();
+    const saved=JSON.parse(raw);
+    const base=initialState();
+    return {
+      ...base,...saved,
+      profile:{...base.profile,...saved.profile},
+      day:{...base.day,...saved.day},
+      boss:{...base.boss,...saved.boss},
+      missions:Array.isArray(saved.missions)?saved.missions:base.missions,
+      workouts:Array.isArray(saved.workouts)?saved.workouts:[],
+      events:Array.isArray(saved.events)?saved.events:[],
+      transactions:Array.isArray(saved.transactions)?saved.transactions:[],
+      rewards:Array.isArray(saved.rewards)?saved.rewards:base.rewards,
+      purchases:Array.isArray(saved.purchases)?saved.purchases:[],
+      reviews:Array.isArray(saved.reviews)?saved.reviews:[],
+      history:Array.isArray(saved.history)?saved.history:[],
+      chat:Array.isArray(saved.chat)?saved.chat:[],
+      achievements:Array.isArray(saved.achievements)?saved.achievements:[]
+    };
+  }catch(error){
+    console.error("Falha ao carregar dados:",error);
+    return initialState();
+  }
+}
+
+let state=loadState();
+let confirmCallback=null;
+
+function save(){
+  try{
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+  }catch(error){
+    console.error(error);
+    toast("Não foi possível salvar. Verifique o espaço do navegador.");
+  }
+}
+
+function toast(message){
+  const el=$("toast");
+  el.textContent=message;
+  el.classList.add("show");
+  clearTimeout(toast.timer);
+  toast.timer=setTimeout(()=>el.classList.remove("show"),2600);
+}
+
+/* =========================================================
+   DATAS E VIRADA DO DIA
+========================================================= */
+
+function syncDay(){
+  const today=DAY();
+
+  if(state.day.date!==today){
+    state.day={
+      date:today,
+      started:false,
+      closed:false,
+      perfect:false,
+      damage:0,
+      heal:0
+    };
+    state.secondChanceUsed=false;
+  }
+
+  const currentWeek=weekStart();
+  if(state.boss.week!==currentWeek){
+    state.boss={
+      week:currentWeek,
+      target:5,
+      reward:100,
+      claimed:false
+    };
+  }
+  save();
+}
+
+/* =========================================================
+   XP, NÍVEL E RECOMPENSAS
+========================================================= */
+
+function levelData(xp=state.xp){
+  let level=1;
+  let remaining=Math.max(0,xp);
+  let needed=100;
+
+  while(remaining>=needed){
+    remaining-=needed;
+    level++;
+    needed=Math.floor(100+(level-1)*35);
+  }
+
+  return {level,progress:remaining,needed};
+}
+
+function rankName(level){
+  if(level>=30)return "Lenda";
+  if(level>=20)return "Mestre";
+  if(level>=12)return "Veterano";
+  if(level>=7)return "Estrategista";
+  if(level>=3)return "Aventureiro";
+  return "Novato";
+}
+
+function addXP(amount,reason="Missão concluída"){
+  const before=levelData().level;
+  state.xp+=Math.max(0,Math.floor(amount));
+  const after=levelData().level;
+
+  state.history.unshift({
+    id:uid(),date:DAY(),type:"xp",
+    text:reason,value:amount
+  });
+
+  if(after>before){
+    state.hp=clamp(state.hp+10,0,100);
+    toast(`Nível ${after}! +10 HP de bônus.`);
+  }
+  checkAchievements();
+  save();
+}
+
+function addCoins(amount,reason){
+  const value=Math.floor(Number(amount));
+  if(!Number.isFinite(value)||value<=0)return false;
+  state.coins+=value;
+  state.transactions.push({
+    id:uid(),type:"in",title:reason||"Recompensa",
+    value,date:DAY(),system:true
+  });
+  save();
+  return true;
+}
+
+/* =========================================================
+   MISSÕES
+========================================================= */
+
+function isDone(mission,date=DAY()){
+  return (mission.doneDates||[]).includes(date);
+}
+
+function completeMission(id){
+  if(state.day.closed){
+    toast("O dia já foi fechado. Não é possível alterar missões.");
+    return;
+  }
+
+  const mission=state.missions.find(m=>m.id===id);
+  if(!mission||isDone(mission))return;
+
+  mission.doneDates=mission.doneDates||[];
+  mission.doneDates.push(DAY());
+
+  const multiplier={
+    easy:1,
+    medium:1.5,
+    hard:2
+  }[mission.difficulty]||1;
+
+  const reward=Math.round((mission.xp||10)*multiplier);
+  addXP(reward,mission.title);
+  addCoins(Math.max(1,Math.floor(reward/10)),"Microcoins: "+mission.title);
+
+  state.history.unshift({
+    id:uid(),date:DAY(),type:"mission",
+    text:mission.title,value:reward
+  });
+
+  save();
+  renderAll();
+  toast(`Missão concluída! +${reward} XP`);
+}
+
+function undoMission(id){
+  const mission=state.missions.find(m=>m.id===id);
+  if(!mission||!isDone(mission))return;
+  confirm("Desmarcar missão?","Isso não retira o XP já recebido. O registro de conclusão de hoje será removido.",()=>{
+    mission.doneDates=mission.doneDates.filter(d=>d!==DAY());
+    save();renderAll();toast("Conclusão desmarcada. XP preservado.");
+  });
+}
+
+function deleteMission(id){
+  confirm("Excluir missão?","A missão será removida da sua lista. O histórico de XP não será apagado.",()=>{
+    state.missions=state.missions.filter(m=>m.id!==id);
+    save();renderAll();toast("Missão removida.");
+  });
+}
+
+$("missionForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  const title=$("missionTitle").value.trim();
+  if(!title)return;
+  const difficulty=$("missionDifficulty").value;
+  const icon={easy:"🌱",medium:"⚡",hard:"🔥"}[difficulty];
+  state.missions.push({
+    id:uid(),title,
+    type:$("missionType").value,
+    difficulty,
+    xp:clamp(Number($("missionXP").value)||10,1,500),
+    icon,doneDates:[]
+  });
+  save();e.target.reset();$("missionXP").value=20;
+  renderAll();toast("Missão criada.");
+});
+
+$("missionFilter").addEventListener("change",renderMissions);
+$("disciplineToggle").addEventListener("change",e=>{
+  state.disciplined=e.target.checked;
+  save();renderAll();
+  toast(state.disciplined?"Modo disciplinado ativado.":"Modo disciplinado desativado.");
+});
+
+/* =========================================================
+   TREINOS GG FIT
+========================================================= */
+
+const workoutNames={
+  full:"Corpo inteiro",
+  upper:"Membros superiores",
+  lower:"Membros inferiores",
+  core:"Abdômen e core",
+  cardio:"Cardio",
+  mobility:"Mobilidade"
+};
+
+function workoutsThisWeek(){
+  const start=weekStart();
+  return state.workouts.filter(w=>w.date>=start&&w.date<=DAY());
+}
+
+function registerWorkout(data){
+  const xpByIntensity={light:15,normal:25,strong:35};
+  const xp=xpByIntensity[data.intensity]||25;
+  const workout={
+    id:uid(),
+    date:DAY(),
+    type:data.type,
+    intensity:data.intensity,
+    minutes:data.minutes,
+    xp
+  };
+  state.workouts.push(workout);
+  addXP(xp,"Treino: "+workoutNames[data.type]);
+  addCoins(Math.max(2,Math.floor(xp/5)),"Recompensa por treino");
+
+  if(!state.missions.some(m=>m.id==="system-workout")){
+    state.missions.push({
+      id:"system-workout",
+      title:"Concluir um treino",
+      type:"daily",
+      difficulty:"medium",
+      xp:20,
+      icon:"🏋️",
+      doneDates:[]
+    });
+  }
+
+  const mission=state.missions.find(m=>m.id==="system-workout");
+  if(mission&&!isDone(mission)){
+    mission.doneDates.push(DAY());
+  }
+
+  state.history.unshift({
+    id:uid(),date:DAY(),type:"workout",
+    text:workoutNames[data.type],value:data.minutes
+  });
+
+  checkBoss();
+  save();renderAll();
+  toast(`Treino registrado! +${xp} XP`);
+}
+
+$("workoutForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  const minutes=clamp(Number($("workoutMinutes").value)||1,1,240);
+  registerWorkout({
+    type:$("workoutType").value,
+    intensity:$("workoutIntensity").value,
+    minutes
+  });
+  e.target.reset();
+  $("workoutMinutes").value=20;
+});
+
+/* =========================================================
+   CHEFE SEMANAL
+========================================================= */
+
+function checkBoss(){
+  const count=workoutsThisWeek().length;
+  if(count>=state.boss.target&&!state.boss.claimed){
+    state.boss.claimed=true;
+    addCoins(state.boss.reward,"Chefe semanal derrotado");
+    state.history.unshift({
+      id:uid(),date:DAY(),type:"boss",
+      text:"Chefe semanal derrotado",value:state.boss.reward
+    });
+    toast("Chefe semanal derrotado! Recompensa recebida.");
+  }
+}
+
+/* =========================================================
+   AGENDA
+========================================================= */
+
+$("eventDate").value=DAY();
+
+$("eventForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  const title=$("eventTitle").value.trim();
+  const date=$("eventDate").value;
+  if(!title||!date)return;
+
+  state.events.push({
+    id:uid(),
+    title,
+    date,
+    time:$("eventTime").value,
+    note:$("eventNote").value.trim()
+  });
+  save();e.target.reset();$("eventDate").value=DAY();
+  renderAgenda();toast("Evento adicionado.");
+});
+
+function deleteEvent(id){
+  state.events=state.events.filter(e=>e.id!==id);
+  save();renderAgenda();toast("Evento removido.");
+}
+
+/* =========================================================
+   ECONOMIA
+========================================================= */
+
+function walletBalance(){
+  return state.transactions.reduce((sum,t)=>
+    sum+(t.type==="in"?t.value:-t.value),0);
+}
+
+$("transactionForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  const title=$("transactionTitle").value.trim();
+  const value=Math.floor(Number($("transactionValue").value));
+  const type=$("transactionType").value;
+
+  if(!title||!Number.isFinite(value)||value<=0)return;
+  if(type==="out"&&value>walletBalance()){
+    toast("Saldo insuficiente.");
+    return;
+  }
+
+  state.transactions.push({
+    id:uid(),title,value,type,date:DAY(),system:false
+  });
+  save();e.target.reset();renderFinance();
+  toast("Movimentação registrada.");
+});
+
+function deleteTransaction(id){
+  const tx=state.transactions.find(t=>t.id===id);
+  if(!tx||tx.system){
+    toast("Movimentações automáticas não podem ser removidas.");
+    return;
+  }
+  confirm("Excluir movimentação?","O saldo será recalculado após a exclusão.",()=>{
+    state.transactions=state.transactions.filter(t=>t.id!==id);
+    save();renderFinance();toast("Movimentação excluída.");
+  });
+}
+
+/* =========================================================
+   LOJA E RECOMPENSAS
+========================================================= */
+
+$("rewardForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  const name=$("rewardName").value.trim();
+  const price=Math.floor(Number($("rewardPrice").value));
+  if(!name||!Number.isFinite(price)||price<1)return;
+
+  state.rewards.push({
+    id:uid(),name,price,icon:"🎁"
+  });
+  save();e.target.reset();renderShop();
+  toast("Recompensa adicionada.");
+});
+
+function buyReward(id){
+  const reward=state.rewards.find(r=>r.id===id);
+  if(!reward)return;
+  if(walletBalance()<reward.price){
+    toast("Você ainda não tem Microcoins suficientes.");
+    return;
+  }
+
+  confirm("Comprar recompensa?",`${reward.name} custa ${reward.price} Microcoins.`,()=>{
+    state.transactions.push({
+      id:uid(),type:"out",title:"Loja: "+reward.name,
+      value:reward.price,date:DAY(),system:true
+    });
+    state.purchases.push({
+      id:uid(),rewardId:reward.id,name:reward.name,
+      price:reward.price,date:DAY()
+    });
+    state.history.unshift({
+      id:uid(),date:DAY(),type:"purchase",
+      text:"Resgatou: "+reward.name,value:reward.price
+    });
+    save();renderAll();toast("Recompensa resgatada.");
+  });
+}
+
+/* =========================================================
+   PERSONAGEM
+========================================================= */
+
+$("profileForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  state.profile={
+    name:$("profileName").value.trim().slice(0,24)||"Player",
+    className:$("profileClass").value.trim().slice(0,32)||"Explorador",
+    goal:$("profileGoal").value.trim().slice(0,120),
+    rule:$("profileRule").value.trim().slice(0,120)
+  };
+  save();renderAll();toast("Personagem atualizado.");
+});
+
+/* =========================================================
+   REVISÃO DIÁRIA
+========================================================= */
+
+function dailyMissions(){
+  return state.missions.filter(m=>m.type!=="task");
+}
+
+function reviewDay(){
+  syncDay();
+
+  if(!state.day.started){
+    state.day.started=true;
+    save();renderAll();toast("Dia iniciado. Boa jornada.");
+    return;
+  }
+
+  if(state.day.closed){
+    toast("Este dia já foi revisado.");
+    return;
+  }
+
+  const missions=dailyMissions();
+  const pending=missions.filter(m=>!isDone(m));
+  const done=missions.length-pending.length;
+  const perfect=missions.length>0&&pending.length===0;
+
+  let damage=0;
+  if(state.disciplined){
+    damage=pending.reduce((sum,m)=>{
+      const values={easy:5,medium:10,hard:15};
+      return sum+(values[m.difficulty]||5);
+    },0);
+  }
+
+  const heal=perfect?20:0;
+  const oldHP=state.hp;
+  state.hp=clamp(state.hp-damage+heal,0,100);
+
+  state.day.closed=true;
+  state.day.perfect=perfect;
+  state.day.damage=damage;
+  state.day.heal=heal;
+
+  if(perfect){
+    state.streak++;
+    state.bestStreak=Math.max(state.bestStreak,state.streak);
+    state.achievements.push("perfect:"+DAY());
+  }else{
+    state.streak=0;
+  }
+
+  const review={
+    id:uid(),
+    date:DAY(),
+    done,
+    total:missions.length,
+    pending:pending.map(m=>m.id),
+    damage,heal,
+    hpBefore:oldHP,
+    hpAfter:state.hp,
+    disciplined:state.disciplined,
+    perfect
+  };
+
+  state.reviews.push(review);
+  state.lastReview=DAY();
+
+  state.history.unshift({
+    id:uid(),date:DAY(),type:"review",
+    text:perfect?"Dia perfeito":"Revisão diária",
+    value:done+"/"+missions.length
+  });
+
+  save();renderAll();
+
+  if(damage>0){
+    toast(`Dia fechado. −${damage} HP. XP preservado.`);
+  }else if(heal>0){
+    toast("Dia perfeito! +20 HP.");
+  }else{
+    toast("Dia revisado. Vida preservada.");
+  }
+}
+
+$("reviewButton").addEventListener("click",reviewDay);
+
+function useSecondChance(){
+  if(state.secondChanceUsed){
+    toast("Segunda chance já utilizada hoje.");
+    return;
+  }
+  if(state.day.closed){
+    toast("A revisão do dia já foi fechada.");
+    return;
+  }
+  state.secondChanceUsed=true;
+  state.hp=clamp(state.hp+15,0,100);
+  save();renderAll();toast("Segunda chance: +15 HP.");
+}
+
+/* =========================================================
+   CONQUISTAS
+========================================================= */
+
+const achievementList=[
+  {id:"first_mission",name:"Primeiro passo",description:"Conclua sua primeira missão.",icon:"🌱",check:()=>state.history.some(h=>h.type==="mission")},
+  {id:"first_workout",name:"Corpo em movimento",description:"Registre seu primeiro treino.",icon:"🏋️",check:()=>state.workouts.length>=1},
+  {id:"level_5",name:"Em ascensão",description:"Alcance o nível 5.",icon:"🚀",check:()=>levelData().level>=5},
+  {id:"ten_missions",name:"Constância",description:"Conclua 10 missões.",icon:"🔥",check:()=>state.history.filter(h=>h.type==="mission").length>=10},
+  {id:"five_workouts",name:"Ritmo de treino",description:"Registre 5 treinos.",icon:"⚡",check:()=>state.workouts.length>=5},
+  {id:"first_review",name:"Consciência",description:"Feche seu primeiro dia.",icon:"☑",check:()=>state.reviews.length>=1}
+];
+
+function checkAchievements(){
+  for(const a of achievementList){
+    if(a.check()&&!state.achievements.includes(a.id)){
+      state.achievements.push(a.id);
+      state.history.unshift({
+        id:uid(),date:DAY(),type:"achievement",
+        text:"Conquista: "+a.name,value:0
+      });
+    }
+  }
+}
+
+/* =========================================================
+   WATTSON LOCAL
+========================================================= */
+
+function localAnswer(message){
+  const m=message.toLowerCase();
+
+  if(/cansad|exaust|sem energia|sono/.test(m))
+    return "Reduza o tamanho da missão. Faça a versão mínima e preserve a constância. Um dia difícil não precisa virar uma dívida.";
+
+  if(/dinheiro|finan|microcoin|saldo/.test(m))
+    return "Confira sua carteira na seção Finanças. XP representa evolução. Microcoins representam seu saldo dentro do jogo.";
+
+  if(/treino|exerc|academ|along/.test(m))
+    return "Abra o GG FIT, escolha uma intensidade adequada e registre o treino quando terminar. O importante é acompanhar o que foi realmente feito.";
+
+  if(/agenda|tempo|organiza|prior/.test(m))
+    return "Escolha uma prioridade, coloque um horário na Agenda e deixe o restante como opcional. Uma missão principal já é um começo.";
+
+  if(/projeto|código|codigo|bug|desenvolv/.test(m))
+    return "Quebre o projeto em uma entrega pequena e verificável. Primeiro faça funcionar, depois refine. Qual é o menor próximo passo?";
+
+  if(/vida|hp|dano|disciplina/.test(m))
+    return "Sua vida é calculada na revisão diária. O modo disciplinado é opcional. XP não é removido por missões pendentes.";
+
+  return "Vamos transformar isso em uma próxima ação concreta. O que precisa estar concluído primeiro?";
+}
+
+$("chatForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  const input=$("chatInput");
+  const message=input.value.trim();
+  if(!message)return;
+
+  state.chat.push(
+    {role:"user",text:message},
+    {role:"bot",text:localAnswer(message)}
+  );
+  state.chat=state.chat.slice(-50);
+  input.value="";
+  save();renderChat();
+});
+
+/* =========================================================
+   NAVEGAÇÃO
+========================================================= */
+
+const pageNames={
+  home:"Painel de hoje",
+  missions:"Missões",
+  workout:"GG FIT",
+  agenda:"Agenda",
+  progress:"Progressão",
+  finance:"Finanças",
+  shop:"Loja",
+  character:"Personagem",
+  companion:"Wattson",
+  review:"Revisão diária"
+};
+
+function go(page){
+  if(!pageNames[page])return;
+
+  document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
+  $("page-"+page).classList.add("active");
+
+  document.querySelectorAll("[data-page]").forEach(b=>{
+    b.classList.toggle("active",b.dataset.page===page);
+  });
+
+  $("topTitle").textContent=pageNames[page];
+  window.scrollTo({top:0,behavior:"smooth"});
+  renderAll();
+}
+
+document.querySelectorAll("[data-page]").forEach(button=>{
+  button.addEventListener("click",()=>go(button.dataset.page));
+});
+
+/* =========================================================
+   MODAL DE CONFIRMAÇÃO
+========================================================= */
+
+function confirm(title,text,callback){
+  $("confirmTitle").textContent=title;
+  $("confirmText").textContent=text;
+  confirmCallback=callback;
+  $("confirmModal").classList.add("open");
+}
+
+function closeModal(){
+  $("confirmModal").classList.remove("open");
+  confirmCallback=null;
+}
+
+$("confirmAction").addEventListener("click",()=>{
+  const callback=confirmCallback;
+  closeModal();
+  if(callback)callback();
+});
+
+$("confirmModal").addEventListener("click",e=>{
+  if(e.target===$("confirmModal"))closeModal();
+});
+
+/* =========================================================
+   RENDERIZAÇÃO
+========================================================= */
+
+function renderHeader(){
+  const level=levelData();
+  $("topXP").textContent=state.xp+" XP";
+  $("topCoins").textContent=walletBalance()+" MC";
+  $("topHP").textContent=state.hp+" HP";
+  $("todayDate").textContent=new Intl.DateTimeFormat("pt-BR",{
+    weekday:"long",day:"numeric",month:"long",year:"numeric"
+  }).format(new Date());
+
+  $("homeName").textContent=state.profile.name;
+  $("homeAvatar").textContent=state.profile.name.charAt(0).toUpperCase()||"P";
+  $("homeRank").textContent=rankName(level.level).toUpperCase();
+  $("homeLevel").textContent=`Nível ${level.level} · ${state.profile.className}`;
+  $("xpLabel").textContent=`${level.progress} / ${level.needed} XP`;
+  $("xpBar").style.width=(level.progress/level.needed*100)+"%";
+
+  $("homeHP").textContent=state.hp;
+  $("hpText").textContent=state.hp+" / 100 HP";
+  $("hpBar").style.width=state.hp+"%";
+  $("homeCoins").textContent=walletBalance();
+}
+
+function missionHTML(m){
+  const done=isDone(m);
+  return `<div class="mission-row">
+    <div class="mission-icon">${esc(m.icon||"◈")}</div>
+    <div class="mission-info">
+      <strong>${esc(m.title)}</strong>
+      <small>${esc(m.type)} · ${m.xp} XP · ${esc(m.difficulty)}</small>
+    </div>
+    <div class="mission-actions">
+      ${done
+        ? `<span class="done-tag">✓ Feita</span><button class="btn btn-small" onclick="undoMission('${m.id}')">↶</button>`
+        : `<button class="btn btn-primary btn-small" onclick="completeMission('${m.id}')">Concluir</button>`}
+      <button class="btn btn-small btn-danger" onclick="deleteMission('${m.id}')">×</button>
+    </div>
+  </div>`;
+}
+
+function renderMissions(){
+  const filter=$("missionFilter").value;
+  const missions=state.missions.filter(m=>filter==="all"||m.type===filter);
+  $("missionList").innerHTML=missions.length
+    ?missions.map(missionHTML).join("")
+    :'<div class="empty">Nenhuma missão nesta categoria.</div>';
+
+  const all=state.missions.filter(m=>m.type!=="task");
+  const done=all.filter(m=>isDone(m)).length;
+  $("missionDone").textContent=done;
+  $("missionPending").textContent=all.length-done;
+}
+
+function renderHome(){
+  const missions=state.missions.filter(m=>m.type!=="task");
+  const done=missions.filter(m=>isDone(m)).length;
+  $("homeMissionCount").textContent=`${done}/${missions.length}`;
+  $("homeMissions").innerHTML=missions.length
+    ?missions.slice(0,5).map(missionHTML).join("")
+    :'<div class="empty">Crie sua primeira missão.</div>';
+
+  $("summaryMissions").textContent=done;
+  $("summaryWorkouts").textContent=state.workouts.filter(w=>w.date===DAY()).length;
+
+  const count=workoutsThisWeek().length;
+  $("bossProgress").textContent=`${Math.min(count,state.boss.target)}/${state.boss.target} treinos`;
+  $("bossBar").style.width=Math.min(100,count/state.boss.target*100)+"%";
+  $("dailyMessage").textContent=done===missions.length&&missions.length
+    ?"Missões do dia concluídas. Excelente organização."
+    :"Escolha uma missão e avance um passo.";
+  if(state.boss.claimed){
+    $("bossName").textContent="Guardião derrotado";
+    $("bossDescription").textContent="Você conquistou a recompensa semanal.";
+  }else{
+    $("bossName").textContent="Guardião da Constância";
+    $("bossDescription").textContent=`Conclua ${state.boss.target} treinos nesta semana.`;
+  }
+}
+
+function renderAgenda(){
+  const list=[...state.events].sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
+  $("upcomingEvents").innerHTML=list.length?list.map(event=>`
+    <div class="list-row">
+      <div class="event-date"><b>${event.date.slice(8,10)}</b><small>${event.date.slice(5,7)}</small></div>
+      <div style="flex:1;min-width:0"><strong class="small">${esc(event.title)}</strong><div class="muted small">${dateLabel(event.date)} ${event.time?"· "+esc(event.time):""}</div>${event.note?`<div class="muted small">${esc(event.note)}</div>`:""}</div>
+      <button class="btn btn-small btn-danger" onclick="deleteEvent('${event.id}')">×</button>
+    </div>`).join(""):'<div class="empty">Sua agenda está livre.</div>';
+}
+
+function renderWorkouts(){
+  const weekly=workoutsThisWeek();
+  const totalMinutes=state.workouts.reduce((n,w)=>n+w.minutes,0);
+  $("weeklyWorkouts").textContent=weekly.length;
+  $("weeklyWorkoutBar").style.width=Math.min(100,weekly.length/5*100)+"%";
+  $("totalWorkoutMinutes").textContent=totalMinutes+" min";
+
+  const list=[...state.workouts].reverse().slice(0,20);
+  $("workoutHistory").innerHTML=list.length?list.map(w=>`
+    <div class="list-row">
+      <div style="flex:1"><strong class="small">${esc(workoutNames[w.type]||w.type)}</strong><div class="muted small">${dateLabel(w.date)} · ${w.minutes} min · ${esc(w.intensity)}</div></div>
+      <span class="chip">+${w.xp} XP</span>
+    </div>`).join(""):'<div class="empty">Nenhum treino registrado.</div>';
+}
+
+function renderFinance(){
+  $("walletBalance").textContent=walletBalance().toLocaleString("pt-BR")+" ◈";
+  const list=[...state.transactions].reverse().slice(0,20);
+  $("transactionHistory").innerHTML=list.length?list.map(t=>`
+    <div class="list-row">
+      <div style="flex:1"><strong class="small">${esc(t.title)}</strong><div class="muted small">${dateLabel(t.date)}</div></div>
+      <b class="${t.type==="in"?"accent":"red"}">${t.type==="in"?"+":"−"}${t.value}</b>
+      ${!t.system?`<button class="btn btn-small btn-danger" onclick="deleteTransaction('${t.id}')">×</button>`:""}
+    </div>`).join(""):'<div class="empty">Nenhuma movimentação.</div>';
+}
+
+function renderShop(){
+  $("shopGrid").innerHTML=state.rewards.map(r=>`
+    <div class="card shop-item">
+      <span class="shop-icon">${esc(r.icon||"🎁")}</span>
+      <strong>${esc(r.name)}</strong>
+      <p>Recompensa definida por você.</p>
+      <span class="gold small"><b>${r.price} ◈</b></span>
+      <button class="btn btn-primary" onclick="buyReward('${r.id}')">Resgatar</button>
+    </div>`).join("");
+}
+
+function renderCharacter(){
+  const level=levelData();
+  $("characterAvatar").textContent=state.profile.name.charAt(0).toUpperCase()||"P";
+  $("characterName").textContent=state.profile.name;
+  $("characterClass").textContent=state.profile.className;
+  $("characterRank").textContent=rankName(level.level).toUpperCase();
+  $("profileName").value=state.profile.name;
+  $("profileClass").value=state.profile.className;
+  $("profileGoal").value=state.profile.goal||"";
+  $("profileRule").value=state.profile.rule||"";
+}
+
+function renderProgress(){
+  const level=levelData();
+  $("progressLevel").textContent=level.level;
+  $("progressXP").textContent=state.xp.toLocaleString("pt-BR");
+  $("perfectDays").textContent=state.reviews.filter(r=>r.perfect).length;
+  $("statMissions").textContent=state.history.filter(h=>h.type==="mission").length;
+  $("statWorkouts").textContent=state.workouts.length;
+  $("statReviews").textContent=state.reviews.length;
+  $("statStreak").textContent=state.bestStreak+" dias";
+
+  $("achievements").innerHTML=achievementList.map(a=>{
+    const unlocked=state.achievements.includes(a.id);
+    return `<div class="list-row">
+      <span style="font-size:1.35rem">${unlocked?a.icon:"🔒"}</span>
+      <div style="flex:1"><strong class="small">${esc(a.name)}</strong><div class="muted small">${esc(a.description)}</div></div>
+      <span class="chip">${unlocked?"Desbloqueada":"Bloqueada"}</span>
+    </div>`;
+  }).join("");
+
+  const history=state.history.slice(0,20);
+  $("activityHistory").innerHTML=history.length?history.map(h=>`
+    <div class="list-row">
+      <div style="flex:1"><strong class="small">${esc(h.text)}</strong><div class="muted small">${dateLabel(h.date)}</div></div>
+      <span class="chip">${h.type==="xp"||h.type==="mission"?"XP":h.type==="workout"?"TREINO":h.type.toUpperCase()}</span>
+    </div>`).join(""):'<div class="empty">Sua jornada começa agora.</div>';
+}
+
+function renderChat(){
+  const log=$("chatLog");
+  const messages=state.chat.slice(-40);
+  log.innerHTML=messages.length?messages.map(m=>
+    `<div class="bubble ${m.role==="user"?"user":"bot"}">${esc(m.text)}</div>`
+  ).join(""):'<div class="bubble bot">Estou por aqui. Qual é a próxima missão que precisamos tirar do papel?</div>';
+  log.scrollTop=log.scrollHeight;
+}
+
+function renderReview(){
+  const missions=dailyMissions();
+  const done=missions.filter(m=>isDone(m)).length;
+  const pending=missions.length-done;
+
+  $("reviewHP").textContent=state.hp;
+  $("reviewHPBar").style.width=state.hp+"%";
+  $("reviewStatus").textContent=state.day.closed?"Fechado":state.day.started?"Em andamento":"Não iniciado";
+
+  $("reviewMissionList").innerHTML=missions.length?missions.map(m=>`
+    <div class="mission-row">
+      <div class="mission-icon">${esc(m.icon||"◈")}</div>
+      <div class="mission-info"><strong>${esc(m.title)}</strong><small>${esc(m.type)}</small></div>
+      <span class="${isDone(m)?"done-tag":"muted small"}">${isDone(m)?"✓ Concluída":"Pendente"}</span>
+    </div>`).join(""):'<div class="empty">Crie missões para revisar seu dia.</div>';
+
+  $("reviewButton").disabled=state.day.closed;
+  $("reviewButton").textContent=state.day.closed?"Dia já revisado":state.day.started?"Fechar dia":"Iniciar dia";
+
+  if(state.day.closed){
+    $("reviewExplanation").textContent=
+      `Resultado: ${done}/${missions.length} missões. Dano: ${state.day.damage} HP. Recuperação: ${state.day.heal} HP. XP preservado.`;
+  }else if(state.day.started){
+    $("reviewExplanation").textContent=
+      `${pending} missão(ões) pendente(s). O fechamento é definitivo para hoje.`;
+  }else{
+    $("reviewExplanation").textContent=
+      "Inicie o dia para habilitar o fechamento. O modo disciplinado é opcional.";
+  }
+}
+
+function renderAll(){
+  syncDay();
+  checkAchievements();
+  renderHeader();
+  renderHome();
+  renderMissions();
+  renderWorkouts();
+  renderAgenda();
+  renderFinance();
+  renderShop();
+  renderCharacter();
+  renderProgress();
+  renderChat();
+  renderReview();
+  $("disciplineToggle").checked=state.disciplined;
+}
+
+/* =========================================================
+   BACKUP E RESTAURAÇÃO
+========================================================= */
+
+function exportData(){
+  const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;
+  a.download="ritmo-ggfit-backup-"+DAY()+".json";
+  a.click();
+  URL.revokeObjectURL(url);
+  toast("Backup exportado.");
+}
+
+function importData(file){
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=()=>{
+    try{
+      const imported=JSON.parse(reader.result);
+      if(!imported||typeof imported!=="object"||!Array.isArray(imported.missions)){
+        throw new Error("Arquivo inválido");
+      }
+      confirm("Restaurar backup?","Os dados atuais serão substituídos pelos dados do arquivo.",()=>{
+        state=imported;
+        syncDay();save();renderAll();
+        toast("Backup restaurado.");
+      });
+    }catch(error){
+      toast("Não foi possível ler esse backup.");
+    }
+  };
+  reader.readAsText(file);
+}
+
+function resetData(){
+  confirm("Apagar todos os dados?","Esta ação não pode ser desfeita. Exporte um backup antes, se quiser preservar seu progresso.",()=>{
+    localStorage.removeItem(STORAGE_KEY);
+    state=initialState();
+    save();renderAll();go("home");
+    toast("Dados reiniciados.");
+  });
+}
+
+/* =========================================================
+   ATALHOS DE CONFIGURAÇÃO
+========================================================= */
+
+function addSettings(){
+  const footer=document.querySelector(".footer-note");
+  if(!footer)return;
+  const box=document.createElement("div");
+  box.className="card";
+  box.style.marginTop="15px";
+  box.innerHTML=`
+    <h3>Dados e segurança</h3>
+    <p class="small muted">Exporte uma cópia dos seus dados antes de trocar de navegador ou dispositivo.</p>
+    <div class="form-row">
+      <button class="btn" id="exportButton">Exportar backup</button>
+      <label class="btn" style="text-align:center;cursor:pointer">Importar backup<input id="importFile" type="file" accept="application/json" hidden></label>
+    </div>
+    <button class="btn btn-danger btn-block" style="margin-top:10px" id="resetButton">Reiniciar todos os dados</button>
+  `;
+  document.querySelector(".main").insertBefore(box,footer);
+  $("exportButton").addEventListener("click",exportData);
+  $("importFile").addEventListener("change",e=>importData(e.target.files[0]));
+  $("resetButton").addEventListener("click",resetData);
+}
+
+/* =========================================================
+   INICIALIZAÇÃO
+========================================================= */
+
+syncDay();
+addSettings();
+renderAll();
+go("home");
+
+window.RITMO={
+  getState:()=>structuredClone(state),
+  exportData,
+  resetData,
+  useSecondChance,
+  go
+};
+</script>
 </body>
 </html>
