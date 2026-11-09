@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#07080c">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="RITMO: transforme sua rotina em uma jornada. Organize missões, acompanhe sua evolução e construa consistência.">
+  <meta name="application-name" content="RITMO">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <title>RITMO | Sua vida é o jogo</title>
+
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <link rel="stylesheet" href="ritmo-fusion.css">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="RITMO | Sua vida é o jogo">
+  <meta property="og:description" content="Uma missão de cada vez. Transforme intenção em ação.">
+</head>
+
+<body>
+  <div class="app">
+    <header class="top" aria-label="Cabeçalho do RITMO">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">R</div>
+        <div>
+          <h1>RITMO</h1>
+          <small>SUA VIDA É O JOGO</small>
+        </div>
+      </div>
+
+      <div class="hud" aria-label="Status do jogador">
+        <div class="pill">♥ Vida <b id="hudHp">100/100</b></div>
+        <div class="pill">Nível <b id="hudLevel">1</b></div>
+        <div class="pill">XP <b id="hudXp">0/100</b></div>
+        <div class="pill">◈ <b id="hudCoins">0 MC</b></div>
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside class="side" id="sideNav" aria-label="Navegação principal"></aside>
+
+      <main class="main" id="main-content">
+        <section class="page active" id="page-today" aria-labelledby="today-title">
+          <div class="page-head">
+            <div>
+              <div class="eyebrow" id="todayDate">SEU DIA</div>
+              <h2 id="today-title">Hoje é dia de evoluir.</h2>
+              <div class="muted" id="greeting">Uma missão de cada vez.</div>
+            </div>
+            <button class="btn" type="button" onclick="openMission()">＋ Nova missão</button>
+          </div>
+
+          <section class="card hero" aria-label="Status do personagem">
+            <div class="grid two">
+              <div>
+                <div class="eyebrow">STATUS DO PERSONAGEM</div>
+                <h3 id="heroName">Aventureiro</h3>
+                <div class="big" id="heroLevel">Nível 1</div>
+                <div class="label">XP para o próximo nível</div>
+                <div class="bar xp" role="progressbar" aria-label="Progresso de XP">
+                  <i id="heroXpBar"></i>
+                </div>
+                <div class="label" id="heroXpText">0 / 100 XP</div>
+              </div>
+
+              <div>
+                <div class="eyebrow">VITALIDADE</div>
+                <div class="big" id="heroHp">100 <small style="font-size:15px;color:var(--muted)">/ 100</small></div>
+                <div class="bar hp" role="progressbar" aria-label="Vitalidade">
+                  <i id="heroHpBar"></i>
+                </div>
+                <div class="label">A vida representa sua capacidade de manter o ritmo. Revise antes de aplicar consequências.</div>
+              </div>
+            </div>
+
+            <div class="actions">
+              <button class="btn" type="button" onclick="go('review')">Fechar o dia / Revisar</button>
+              <button class="btn secondary" type="button" onclick="go('missions')">Ver missões</button>
+            </div>
+          </section>
+
+          <div class="grid two" style="margin-top:14px">
+            <section class="card" aria-labelledby="today-missions-title">
+              <h3 id="today-missions-title">Missões de hoje <span class="muted" id="todayCount"></span></h3>
+              <div class="list" id="todayMissions"></div>
+            </section>
+
+            <section class="card" aria-labelledby="today-events-title">
+              <h3 id="today-events-title">Próximos compromissos</h3>
+              <div class="list" id="todayEvents"></div>
+              <div class="actions">
+                <button class="btn secondary small" type="button" onclick="go('agenda')">Abrir agenda</button>
+              </div>
+            </section>
+          </div>
+
+          <section class="card" style="margin-top:14px" aria-labelledby="progress-summary-title">
+            <h3 id="progress-summary-title">Resumo do progresso</h3>
+            <div class="grid three">
+              <div><div class="stat" id="doneStat">0</div><div class="label">Missões concluídas</div></div>
+              <div><div class="stat" id="pendingStat">0</div><div class="label">Pendentes</div></div>
+              <div><div class="stat" id="streakStat">0</div><div class="label">Dias perfeitos registrados</div></div>
+            </div>
+          </section>
+        </section>
+
+        <section class="page" id="page-missions" aria-labelledby="missions-title">
+          <div class="page-head">
+            <div>
+              <div class="eyebrow">EXECUÇÃO</div>
+              <h2 id="missions-title">Missões</h2>
+              <div class="muted">Transforme intenção em ação.</div>
+            </div>
+            <button class="btn" type="button" onclick="openMission()">＋ Nova missão</button>
+          </div>
+
+          <div class="tabs" id="missionFilters" aria-label="Filtrar missões">
+            <button class="filter active" type="button" data-filter="all">Todas</button>
+            <button class="filter" type="button" data-filter="habit">Hábitos</button>
+            <button class="filter" type="button" data-filter="daily">Diárias</button>
+            <button class="filter" type="button" data-filter="task">Tarefas</button>
+            <button class="filter" type="button" data-filter="pending">Pendentes</button>
+            <button class="filter" type="button" data-filter="done">Concluídas</button>
+          </div>
+
+          <section class="card" aria-label="Lista de missões">
+            <div class="list" id="allMissions"></div>
+          </section>
+        </section>
+
+        <section class="page" id="page-agenda" aria-labelledby="agenda-title">
+          <div class="page-head">
+            <div>
+              <div class="eyebrow">TEMPO E COMPROMISSOS</div>
+              <h2 id="agenda-title">Agenda</h2>
+              <div class="muted">Enxergue o que vem pela frente.</div>
+            </div>
+          </div>
+
+          <div class="grid two">
+            <section class="card">
+              <h3>Novo compromisso</h3>
+              <form id="eventForm">
+                <div class="field">
+                  <label for="eventTitle">Título</label>
+                  <input id="eventTitle" name="title" required maxlength="100" placeholder="Ex.: Estudar Python">
+                </div>
+
+                <div class="form-grid">
+                  <div class="field">
+                    <label for="eventDate">Data</label>
+                    <input id="eventDate" name="date" type="date" required>
+                  </div>
+                  <div class="field">
+                    <label for="eventTime">Horário</label>
+                    <input id="eventTime" name="time" type="time">
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label for="eventDesc">Descrição</label>
+                  <textarea id="eventDesc" name="description" rows="2" maxlength="500" placeholder="Detalhes opcionais"></textarea>
+                </div>
+
+                <button class="btn" type="submit">Salvar compromisso</button>
+              </form>
+            </section>
+
+            <section class="card">
+              <h3>Compromissos cadastrados</h3>
+              <div class="list" id="eventList"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="page" id="page-progression" aria-labelledby="progression-title">
+          <div class="page-head">
+            <div>
+              <div class="eyebrow">EVOLUÇÃO DO JOGADOR</div>
+              <h2 id="progression-title">Progressão</h2>
+              <div class="muted">O histórico mostra o caminho, não só o placar.</div>
+            </div>
+          </div>
+
+          <div class="grid three">
+            <section class="card"><div class="label">Nível atual</div><div class="stat" id="progLevel">1</div></section>
+            <section class="card"><div class="label">XP acumulado</div><div class="stat" id="progXp">0</div></section>
+            <section class="card"><div class="label">Dias perfeitos</div><div class="stat" id="progPerfect">0</div></section>
+          </div>
+
+          <div class="grid two" style="margin-top:14px">
+            <section class="card">
+              <h3>Conquistas</h3>
+              <div class="list" id="achievements"></div>
+            </section>
+
+            <section class="card">
+              <h3>Vitórias pessoais</h3>
+              <form id="winForm">
+                <div class="field">
+                  <label for="winTitle">Qual foi sua vitória?</label>
+                  <input id="winTitle" name="title" required maxlength="120" placeholder="Ex.: Terminei um curso">
+                </div>
+                <button class="btn" type="submit">Registrar vitória</button>
+              </form>
+              <div class="list" id="wins" style="margin-top:12px"></div>
+            </section>
+          </div>
+
+          <section class="card" style="margin-top:14px">
+            <h3>Histórico de atividade</h3>
+            <div class="list" id="history"></div>
+          </section>
+        </section>
+
+        <section class="page" id="page-finance" aria-labelledby="finance-title">
+          <div class="page-head">
+            <div>
+              <div class="eyebrow">ECONOMIA DO JOGO</div>
+              <h2 id="finance-title">Finanças</h2>
+              <div class="muted">Entradas, saídas e evolução dos microcoins.</div>
+            </div>
+            <button class="btn" type="button" onclick="openTransaction()">＋ Movimentação</button>
+          </div>
+
+          <div class="grid three">
+            <section class="card"><div class="label">Saldo atual</div><div class="stat" id="balance">0 MC</div></section>
+            <section class="card"><div class="label">Total de entradas</div><div class="stat positive" id="income">+0 MC</div></section>
+            <section class="card"><div class="label">Total de saídas</div><div class="stat negative" id="expense">-0 MC</div></section>
+          </div>
+
+          <div class="grid two" style="margin-top:14px">
+            <section class="card">
+              <h3>Entradas × saídas</h3>
+              <canvas id="financeChart" class="chart" aria-label="Gráfico de entradas e saídas" role="img"></canvas>
+              <div class="label">Valores acumulados registrados no histórico.</div>
+            </section>
+
+            <section class="card">
+              <h3>Registrar movimentação</h3>
+              <form id="transactionForm">
+                <div class="form-grid">
+                  <div class="field">
+                    <label for="txType">Tipo</label>
+                    <select id="txType" name="type">
+                      <option value="in">Entrada</option>
+                      <option value="out">Saída</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label for="txAmount">Valor em MC</label>
+                    <input id="txAmount" name="amount" type="number" min="1" step="1" required>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label for="txCategory">Categoria</label>
+                  <select id="txCategory" name="category">
+                    <option>Recompensa de missão</option>
+                    <option>Bônus</option>
+                    <option>Curativo</option>
+                    <option>Consumível</option>
+                    <option>Desbloqueio</option>
+                    <option>Outro</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label for="txDesc">Descrição</label>
+                  <input id="txDesc" name="description" maxlength="160" placeholder="Detalhe da movimentação">
+                </div>
+
+                <button class="btn" type="submit">Registrar</button>
+              </form>
+            </section>
+          </div>
+
+          <section class="card" style="margin-top:14px">
+            <h3>Extrato</h3>
+            <div class="list" id="transactions"></div>
+          </section>
+
+          <p class="notice" style="margin-top:14px">
+            Microcoins e XP são sistemas separados. Esta versão registra movimentações manuais e recompensas demonstrativas. Regras definitivas de recompensa, loja e conversão precisam ser homologadas.
+          </p>
+        </section>
+
+        <section class="page" id="page-companion" aria-labelledby="companion-title">
+          <div class="page-head">
+            <div>
+              <div class="eyebrow">CENTRAL DE APOIO</div>
+              <h2 id="companion-title">Companheiro</h2>
+              <div class="muted">Um espaço para pensar o próximo movimento.</div>
+            </div>
+          </div>
+
+          <section class="card">
+            <div class="eyebrow">WATTSON LOCAL · DEMONSTRAÇÃO</div>
+            <h3>Como posso ajudar na sua jornada?</h3>
+            <div class="list" id="chatMessages" aria-live="polite" aria-relevant="additions">
+              <div class="item">
+                <div class="item-main">Vamos transformar seus objetivos em missões claras. O que está ocupando sua cabeça hoje?</div>
+              </div>
+            </div>
+
+            <form id="chatForm" style="display:flex;gap:8px;margin-top:14px">
+              <label class="sr-only" for="chatInput">Sua mensagem</label>
+              <input id="chatInput" name="message" placeholder="Escreva sua mensagem..." required maxlength="1000">
+              <button class="btn" type="submit">Enviar</button>
+            </form>
+
+            <p class="label" style="margin-top:10px">Este companheiro é local e demonstrativo. Não há conexão com um modelo de IA nesta versão.</p>
+          </section>
+        </section>
+
+        <section class="page" id="page-character" aria-labelledby="character-title">
+          <div class="page-head">
+            <div>
+              <div class="eyebrow">IDENTIDADE</div>
+              <h2 id="character-title">Personagem</h2>
+              <div class="muted">Configure quem está vivendo esta jornada.</div>
+            </div>
+          </div>
+
+          <div class="grid two">
+            <section class="card">
+              <h3>Ficha do personagem</h3>
+              <form id="profileForm">
+                <div class="field">
+                  <label for="profileName">Seu nome</label>
+                  <input id="profileName" name="name" maxlength="60" placeholder="Como podemos chamar você?">
+                </div>
+
+                <div class="field">
+                  <label for="warriorName">Nome de guerreiro</label>
+                  <input id="warriorName" name="warriorName" maxlength="60" placeholder="Seu codinome">
+                </div>
+
+                <div class="field">
+                  <label for="className">Classe</label>
+                  <select id="className" name="className">
+                    <option>Explorador</option>
+                    <option>Guardião</option>
+                    <option>Cientista</option>
+                    <option>Artista</option>
+                    <option>Batedor</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label for="goal">Objetivo principal</label>
+                  <textarea id="goal" name="goal" rows="3" maxlength="500" placeholder="O que você quer construir?"></textarea>
+                </div>
+
+                <div class="field">
+                  <label for="personalRule">Regra pessoal</label>
+                  <input id="personalRule" name="personalRule" maxlength="160" placeholder="Ex.: Feito é melhor que perfeito">
+                </div>
+
+                <button class="btn" type="submit">Salvar personagem</button>
+              </form>
+            </section>
+
+            <section class="card">
+              <h3>Regras de jornada</h3>
+              <p class="muted">As consequências são aplicadas somente após sua revisão. O RITMO não deve presumir que uma missão falhou só porque não foi marcada.</p>
+              <div class="metric"><span>Confirmação manual</span><b class="positive">Ativa</b></div>
+              <div class="metric"><span>Vida excedente</span><b>Não convertida automaticamente</b></div>
+              <div class="metric"><span>Histórico</span><b>Local neste dispositivo</b></div>
+              <div class="actions">
+                <button class="btn secondary" type="button" onclick="exportData()">Exportar dados</button>
+                <button class="btn danger" type="button" onclick="resetData()">Zerar demonstração</button>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section class="page" id="page-review" aria-labelledby="review-title">
+          <div class="page-head">
+            <div>
+              <div class="eyebrow">FECHAMENTO DO DIA</div>
+              <h2 id="review-title">Revisão diária</h2>
+              <div class="muted">Você confirma o que aconteceu. Só então o sistema calcula consequências.</div>
+            </div>
+            <button class="btn secondary" type="button" onclick="go('today')">Voltar</button>
+          </div>
+
+          <section class="card">
+            <h3>Como foi seu dia?</h3>
+            <div class="grid three" id="reviewStats"></div>
+
+            <div class="notice" style="margin:14px 0">
+              Marque cada missão como concluída ou não realizada. Missões sem confirmação ficam pendentes e não geram dano automaticamente.
+            </div>
+
+            <div class="list" id="reviewList"></div>
+
+            <div class="field" style="margin-top:14px">
+              <label for="reviewNote">Nota sobre o dia (opcional)</label>
+              <textarea id="reviewNote" rows="3" maxlength="1000" placeholder="O que funcionou? O que dificultou?"></textarea>
+            </div>
+
+            <button class="btn" type="button" onclick="saveReview()">Confirmar revisão</button>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <nav class="bottom" id="bottomNav" aria-label="Navegação inferior"></nav>
+  </div>
+
+  <div class="modal-backdrop" id="missionModal" role="dialog" aria-modal="true" aria-labelledby="missionModalTitle">
+    <div class="modal">
+      <div class="modal-head">
+        <h3 id="missionModalTitle">Nova missão</h3>
+        <button class="close" type="button" aria-label="Fechar" onclick="closeModal('missionModal')">×</button>
+      </div>
+
+      <form id="missionForm">
+        <div class="field">
+          <label for="missionTitle">Nome da missão</label>
+          <input id="missionTitle" name="title" required maxlength="120" placeholder="Ex.: Estudar programação">
+        </div>
+
+        <div class="field">
+          <label for="missionDescription">Descrição</label>
+          <textarea id="missionDescription" name="description" rows="2" maxlength="500"></textarea>
+        </div>
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="missionType">Categoria</label>
+            <select id="missionType" name="type">
+              <option value="habit">Hábito</option>
+              <option value="daily">Diária</option>
+              <option value="task">Tarefa</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="missionPriority">Prioridade</label>
+            <select id="missionPriority" name="priority">
+              <option>Normal</option>
+              <option>Alta</option>
+              <option>Crítica</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="missionXp">XP da missão</label>
+            <input id="missionXp" name="xp" type="number" min="1" max="10000" value="20">
+          </div>
+
+          <div class="field">
+            <label for="missionDamage">Impacto na vida</label>
+            <input id="missionDamage" name="damage" type="number" min="0" max="100" value="5">
+          </div>
+
+          <div class="field">
+            <label for="missionTime">Horário</label>
+            <input id="missionTime" name="time" type="time">
+          </div>
+
+          <div class="field">
+            <label for="missionDuration">Duração (min)</label>
+            <input id="missionDuration" name="duration" type="number" min="5" max="480" value="30">
+          </div>
+
+          <div class="field">
+            <label for="missionStart">Data de início</label>
+            <input id="missionStart" name="start" type="date">
+          </div>
+
+          <div class="field">
+            <label for="missionDue">Prazo (opcional)</label>
+            <input id="missionDue" name="due" type="date">
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="missionDays">Dias da semana para hábitos/diárias</label>
+          <input id="missionDays" name="days" maxlength="100" placeholder="Ex.: seg, qua, sex">
+        </div>
+
+        <button class="btn" type="submit">Salvar missão</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="transactionModal" role="dialog" aria-modal="true" aria-labelledby="transactionModalTitle">
+    <div class="modal">
+      <div class="modal-head">
+        <h3 id="transactionModalTitle">Movimentação financeira</h3>
+        <button class="close" type="button" aria-label="Fechar" onclick="closeModal('transactionModal')">×</button>
+      </div>
+      <p class="muted">Use o formulário da aba Finanças para registrar entradas e saídas.</p>
+      <button class="btn" type="button" onclick="closeModal('transactionModal');go('finance')">Ir para Finanças</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- Compatibilidade: este HTML usa os IDs e handlers do ritmo-fusion.js. -->
+  <script src="ritmo-fusion.js" defer></script>
+</body>
+</html>
